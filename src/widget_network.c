@@ -32,12 +32,18 @@ static void widget_network_recv_clear(void *arg) {
 }
 
 void widget_network_send() {
+  if (!widget_network)
+    return;
+
   if (!send_timer)
     send_timer=mgos_set_timer(100, 0, widget_network_send_clear, NULL);
   widget_network_ev(EV_WIDGET_REDRAW, widget_network, NULL);
 }
 
 void widget_network_recv() {
+  if (!widget_network)
+    return;
+
   if (!recv_timer)
     recv_timer=mgos_set_timer(100, 0, widget_network_recv_clear, NULL);
   widget_network_ev(EV_WIDGET_REDRAW, widget_network, NULL);
@@ -58,6 +64,10 @@ void widget_network_ev(int ev, struct widget_t *w, void *ev_data) {
     case EV_WIDGET_TOUCH_UP:
     case EV_WIDGET_TOUCH_DOWN:
     case EV_WIDGET_DESTROY:
+      widget_network=NULL;
+      send_timer=0;
+      recv_timer=0;
+      break;
     default: // EV_WIDGET_NONE
       break;
   }
