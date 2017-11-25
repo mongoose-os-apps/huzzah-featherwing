@@ -1,0 +1,46 @@
+platform: esp32
+author: Pim van Pelt <pim@ipng.nl>
+description: A Mongoose-OS Huzzah32 Featherwing
+version: 1.0
+
+libs_version: ${mos.version}
+modules_version: ${mos.version}
+mongoose_os_version: ${mos.version}
+
+tags:
+  - c
+  - hw
+
+# List of files / directories with C sources. No slashes at the end of dir names.
+sources:
+  - src
+
+includes:
+  - include
+
+# List of dirs. Files from these dirs will be copied to the device filesystem
+filesystem:
+  - fs
+
+config_schema:
+  - ["wifi.ap.enable", false]
+  - ["wifi.sta.enable", true]
+  - ["wifi.sta.ssid", "dapches-iot"]
+  - ["wifi.sta.pass", "marielle"]
+  - ["tft", "o", {title: "TFT settings"}]
+  - ["tft.orientation", "i", {title: "Orientation; 0=PORTRAIT 1=LANDSCAPE 2=PORTRAIT_FLIP 3=LANDSCAPE_FLIP"}]
+  - ["tft.orientation", 1 ]
+  - ["app", "o", {title: "APP settings"}]
+  - ["app.hostname", "s", {title: "Device hostname"}]
+  - ["app.hostname", "Mongoose Touch"]
+
+
+# List of libraries used by this app, in order of initialisation
+libs:
+  - origin: https://github.com/mongoose-os-libs/wifi
+  - origin: libs/lobo-spi
+  - origin: libs/ili9341
+  - origin: libs/stmpe610
+
+# Used by the mos tool to catch mos binaries incompatible with this file format
+manifest_version: 2017-05-18
