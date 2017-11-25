@@ -73,17 +73,14 @@ struct widget_t *widget_find(uint16_t x, uint16_t y) {
 }
 
 void widget_remove(struct widget_t *widget) {
-//  struct widget_list_t *wl, *wlt;
-
+  struct widget_list_t *wl;
   if (!widget)
     return;
 
-/*
-  SLIST_FOREACH_SAFE(wl, &s_widgets, entries, wlt) {
+  SLIST_FOREACH(wl, &s_widgets, entries) {
     if (wl->widget == widget) {
-      SLIST_REMOVE(&s_widgets, wl, widget_t, entries);
-      free(wl);
+      SLIST_REMOVE(&s_widgets, wl, widget_list_t, entries);
+      widget_destroy(widget);
     }
   }
-*/
 }
