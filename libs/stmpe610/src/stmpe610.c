@@ -15,6 +15,10 @@
 #define SPI_BUS VSPI_HOST
 #define STMPE_SPI_MODE 1
 
+
+struct mgos_stmpe610_event_data s_last_touch;
+
+
 static spi_lobo_device_handle_t s_stmpe610_spi = NULL;
 static mgos_stmpe610_event_t s_event_handler = NULL;
 static enum mgos_stmpe610_rotation_t s_rotation = STMPE610_PORTRAIT;
@@ -145,6 +149,26 @@ static void stmpe610_map_rotation(uint16_t x, uint16_t y, uint16_t *x_out, uint1
   }
 }
 
+/* Each time a TOUCH_DOWN event occurs, s_last_touch is populated
+   and a timer is started. When the timer fires, we checke to see
+   if we've sent a TOUCH_UP event already. If not, we may still be
+   pressing the screen. IF we're not pressing the screen STMP610
+   bufferLength() will be 0. We've now detected a DOWN without a
+   corresponding UP, so we send it ourselves.
+*/
+static void stmpe610_down_cb(void *arg) {
+  if (s_last_touch.direction == TOUCH_UP)
+    return;
+  if (stmpe610_bufferLength() > 0)
+    return;
+
+  s_last_touch.direction=TOUCH_UP;
+  if (s_event_handler) {
+    LOG(LL_INFO, ("Touch DOWN not followed by UP -- sending phantom UP"));
+    s_event_handler(&s_last_touch);
+  }
+}
+
 static void stmpe610_irq(int pin, void *arg) {
   struct mgos_stmpe610_event_data ed;
   uint16_t x, y; 
@@ -164,6 +188,9 @@ static void stmpe610_irq(int pin, void *arg) {
         ed.direction = TOUCH_DOWN;
         stmpe610_map_rotation(x, y, &ed.x, &ed.y);
         ed.z = z;
+        // To avoid DOWN events without an UP event, set a timer (see stmpe610_down_cb for details)
+        memcpy((void *)&s_last_touch, (void *)&ed, sizeof(s_last_touch));
+        mgos_set_timer(100, 0, stmpe610_down_cb, NULL);
         if (s_event_handler)
           s_event_handler(&ed);
         break;
@@ -178,6 +205,7 @@ static void stmpe610_irq(int pin, void *arg) {
   ed.direction = TOUCH_UP;
   stmpe610_map_rotation(x, y, &ed.x, &ed.y);
   ed.z = z;
+  memcpy((void *)&s_last_touch, (void *)&ed, sizeof(s_last_touch));
   if (s_event_handler)
     s_event_handler(&ed);
 
