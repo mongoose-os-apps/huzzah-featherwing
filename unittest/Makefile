@@ -21,6 +21,6 @@ $(TARGET): $(OBJECTS)
 	$(CC) $(CFLAGS) -I$(INCLUDE) $(OBJECTS) $(LIBS) -o $@
 
 clean:
-	-rm -f *.o
+	-rm -f $(OBJECTS)
 	-rm -f $(TARGET)
 
