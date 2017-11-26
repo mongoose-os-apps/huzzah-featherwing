@@ -9,7 +9,8 @@ INCLUDE = ../include
 default: $(TARGET)
 all: default
 
-OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c)) frozen/frozen.o
+OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
+SRCS    = frozen/frozen.c
 HEADERS = $(wildcard *.h)
 
 %.o: %.c $(HEADERS)
@@ -18,7 +19,7 @@ HEADERS = $(wildcard *.h)
 .PRECIOUS: $(TARGET) $(OBJECTS)
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) -I$(INCLUDE) $(OBJECTS) $(LIBS) -o $@
+	$(CC) $(CFLAGS) -I$(INCLUDE) $(OBJECTS) $(LIBS) $(SRCS) -o $@
 
 clean:
 	-rm -f $(OBJECTS)
