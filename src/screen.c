@@ -1,15 +1,11 @@
 #include "screen.h"
 
-struct screen_t *screen_create(char *name, uint16_t x, uint16_t y, uint16_t w, uint16_t h) {
+struct screen_t *screen_create(char *name) {
   struct screen_t *screen = NULL;
 
   screen = (struct screen_t *) calloc(1, sizeof(*screen));
   if (!screen)
     return NULL;
-  screen->x=x; 
-  screen->y=y; 
-  screen->w=w; 
-  screen->h=h; 
   if (name)
     screen->name=strdup(name);
   SLIST_INIT(&screen->widget_entries);
@@ -39,14 +35,13 @@ struct screen_t *screen_create_from_json(char *json, widget_event_fn handler, vo
   int idx;
   struct screen_t *screen = NULL;
   struct widget_t *widget = NULL;
-  int screen_x, screen_y, screen_w, screen_h;
   char *screen_name = NULL;
 
-  if (json_scanf(json, strlen(json), "{x:%d,y:%d,w:%d,h:%d,name:%Q}", &screen_x, &screen_y, &screen_w, &screen_h, &screen_name) != 5) {
-    LOG(LL_ERROR, ("Incomplete JSON: require 'x', 'y', 'w', 'h' and 'name' fields"));
+  if (json_scanf(json, strlen(json), "{name:%Q}", &screen_name) != 1) {
+    LOG(LL_ERROR, ("Incomplete JSON: require 'name' fields"));
     screen=NULL; goto exit;
   }
-  screen = screen_create(screen_name, screen_x, screen_y, screen_w, screen_h);
+  screen = screen_create(screen_name);
   if (!screen)
     return NULL;
   screen_widget_set_handler(screen, handler, user_data);

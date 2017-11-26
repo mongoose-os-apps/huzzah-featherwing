@@ -21,8 +21,8 @@ static void touch_handler(struct mgos_stmpe610_event_data *ed) {
   x = map(ed->x, 0, 4095, 0, _width-1);
   y = map(ed->y, 0, 4095, 0, _height-1);
   LOG(LL_INFO, ("Touch %s at (%d,%d) pressure=%d, length=%d", ed->direction==TOUCH_UP?"UP":"DOWN", x, y, ed->z, ed->length));
-
   widget = screen_widget_find_by_xy(screen, x, y);
+
   if (ed->direction==TOUCH_DOWN) {
     widget_network_recv();
     if (widget && widget->handler)
