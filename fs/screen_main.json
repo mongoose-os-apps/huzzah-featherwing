@@ -5,21 +5,30 @@
       "name": "one",
       "x": 16,
       "y": 36,
-      "w": 48,
-      "h": 48,
+      "w": 64,
+      "h": 56,
       "label": "One",
       "type": 2,
       "screen": "screen_one.json"
     },
     {
       "name": "two",
-      "x": 256,
+      "x": 240,
       "y": 36,
-      "w": 48,
-      "h": 48,
+      "w": 64,
+      "h": 56,
       "label": "Two",
       "type": 2,
       "screen": "screen_two.json"
+    },
+    {
+      "name": "three",
+      "x": 128,
+      "y": 36,
+      "w": 64,
+      "h": 64,
+      "label": "Three",
+      "type": 2
     },
     {
       "name": "logo",
