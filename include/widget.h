@@ -11,8 +11,8 @@ struct widget_t;
 #define EV_WIDGET_DRAW       3
 #define EV_WIDGET_REDRAW     4
 #define EV_WIDGET_TIMER      5
-#define EV_WIDGET_TOUCH_UP   6
-#define EV_WIDGET_TOUCH_DOWN 7
+#define EV_WIDGET_TOUCH_UP   6 // struct mgos_stmpe610_event_data *
+#define EV_WIDGET_TOUCH_DOWN 7 // struct mgos_stmpe610_event_data *
 
 enum widget_type_t {
   WIDGET_TYPE_NONE           =0,
@@ -52,6 +52,9 @@ void widget_delete_timer(struct widget_t *w);
 struct widget_t *widget_create_from_json(const char *json);
 struct widget_t *widget_create_from_file(const char *fn);
 void widget_destroy(struct widget_t **widget);
+
+// Convert ev in EV_WIDGET_* to string
+void widget_ev_to_str(int ev, char *s, int slen);
 
 
 #endif // __WIDGET_H

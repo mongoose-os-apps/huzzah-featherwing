@@ -23,18 +23,14 @@ static void touch_handler(struct mgos_stmpe610_event_data *ed) {
   LOG(LL_INFO, ("Touch %s at (%d,%d) pressure=%d, length=%d", ed->direction==TOUCH_UP?"UP":"DOWN", x, y, ed->z, ed->length));
 
   widget = screen_widget_find_by_xy(screen, x, y);
-  if (widget) {
-    LOG(LL_INFO, ("Widget '%s' found", widget->name));
-  }
-
   if (ed->direction==TOUCH_DOWN) {
     widget_network_recv();
     if (widget && widget->handler)
-      widget->handler(EV_WIDGET_TOUCH_DOWN, widget, NULL);
+      widget->handler(EV_WIDGET_TOUCH_DOWN, widget, ed);
   } else {
     widget_network_send();
     if (widget && widget->handler)
-      widget->handler(EV_WIDGET_TOUCH_UP, widget, NULL);
+      widget->handler(EV_WIDGET_TOUCH_UP, widget, ed);
   }
 }
 
@@ -47,7 +43,7 @@ void tft_demo(void)
   mgos_ili9341_setGammaCurve(DEFAULT_GAMMA_CURVE);
   mgos_ili9341_setFont(DEFAULT_FONT, NULL);
 
-  mgos_ili9341_jpg_image(CENTER, CENTER, 1, "mongoose-os.jpg", NULL, 0);
+//  mgos_ili9341_jpg_image(CENTER, CENTER, 1, "mongoose-os.jpg", NULL, 0);
 //  mgos_ili9341_jpg_image(200, 150, 2, "flower.jpg", NULL, 0);
 
   screen = screen_create_from_file("/screen_main.json", widget_default_ev, NULL);

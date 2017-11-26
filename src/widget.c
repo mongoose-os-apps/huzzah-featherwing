@@ -138,3 +138,32 @@ void widget_delete_timer(struct widget_t *w) {
   widget_set_timer(w, 0);
   return;
 }
+
+void widget_ev_to_str(int ev, char *s, int slen) {
+  switch(ev) {
+    case EV_WIDGET_CREATE:
+      strncpy(s, "CREATE", slen);
+      break;
+    case EV_WIDGET_DRAW:
+      strncpy(s, "DRAW", slen);
+      break;
+    case EV_WIDGET_REDRAW:
+      strncpy(s, "REDRAW", slen);
+      break;
+    case EV_WIDGET_TIMER:
+      strncpy(s, "TIMER", slen);
+      break;
+    case EV_WIDGET_TOUCH_UP:
+      strncpy(s, "TOUCH_UP", slen);
+      break;
+    case EV_WIDGET_TOUCH_DOWN:
+      strncpy(s, "TOUCH_DOWN", slen);
+      break;
+    case EV_WIDGET_DESTROY:
+      strncpy(s, "DESTROY", slen);
+      break;
+    default: // EV_WIDGET_NONE
+      snprintf(s, slen, "EV%d", ev);
+      break;
+  }
+}
