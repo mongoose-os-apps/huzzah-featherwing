@@ -8,9 +8,11 @@
 #define WIDGET_NAME_NAME    0
 #define WIDGET_NAME_IPADDR  1
 #define WIDGET_NAME_SSID    2
-#define WIDGET_NAME_EMPTY   3
+#define WIDGET_NAME_SCREEN  3
+#define WIDGET_NAME_EMPTY   4
 
 static uint8_t what = WIDGET_NAME_NAME;
+extern struct screen_t *screen;
 
 static void widget_name_render(struct widget_t *w, void *ev_data) {
   char namestring[21];
@@ -37,11 +39,17 @@ static void widget_name_render(struct widget_t *w, void *ev_data) {
     }
     case WIDGET_NAME_SSID:
       p = mgos_wifi_get_connected_ssid();
-      sprintf(namestring, "%-20s", p);
+      sprintf(namestring, "%-20s", p?p:"(no SSID)");
       free(p);
       break;
+    case WIDGET_NAME_SCREEN:
+      if (screen)
+        sprintf(namestring, "%-20s", screen->name);
+      else
+        sprintf(namestring, "%-20s", "(no Screen)");
+      break;
     case WIDGET_NAME_EMPTY:
-      sprintf(namestring, "%-20s", "");
+        sprintf(namestring, "%-20s", "");
       break;
     default:
       sprintf(namestring, "%-20s",mgos_sys_config_get_app_hostname());
