@@ -28,24 +28,21 @@ exit:
   return 0;
 */
 
-static int test_widget_add_from_file(void) {
+static int test_widget_create_from_file(char *fn) {
   struct widget_t *w;
-  const char *fn = "data/TestWidget.json";
 
-  w = widget_add_from_file(fn, 0, NULL, NULL);
-  if (!w) {
-    LOG(LL_ERROR, ("Could not add %s", fn));
-    return -1;
-  }
-  if (16 != w->x || 48 != w->w || 16 != w->y || 48 != w->h) {
-    LOG(LL_ERROR, ("widget x, y, w, h incorrect"));
-    return -1;
-  }
+  LOG(LL_INFO, ("Adding widget from %s", fn));
+  w = widget_create_from_file(fn);
+  ASSERT(w, "widget_create_from_file()");
+  ASSERT(w->x == 16, "'x' field is invalid");
+  ASSERT(w->y == 16, "'x' field is invalid");
+  ASSERT(w->w == 48, "'x' field is invalid");
+  ASSERT(w->h == 48, "'x' field is invalid");
 
   return 0;
 }
 
 int test_widget() {
-  test_widget_add_from_file();
+  test_widget_create_from_file("data/TestWidget.json");
   return 0;
 }

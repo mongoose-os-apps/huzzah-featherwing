@@ -9,7 +9,7 @@ default: $(TARGET)
 all: default
 
 OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
-SRCS    = frozen/frozen.c ../src/widget.c
+SRCS    = frozen/frozen.c ../src/widget.c ../src/screen.c
 HEADERS = $(wildcard *.h)
 
 %.o: %.c $(HEADERS)
