@@ -72,6 +72,11 @@ int test_screen() {
   struct widget_t *w = NULL;
   uint16_t num_widgets;
 
+  LOG(LL_INFO, ("screen_create_from_file(data/TestScreen-invalid.json)"));
+  s = screen_create_from_file("data/TestScreen-invalid.json");
+  ASSERT(!s, "created screen from invalid date");
+
+  num_widgets = screen_get_num_widgets(s);
   LOG(LL_INFO, ("screen_create_from_file(data/TestScreen.json)"));
   s = screen_create_from_file("data/TestScreen.json");
   ASSERT(s, "Could not create screen");

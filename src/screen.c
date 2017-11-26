@@ -19,6 +19,20 @@ struct screen_t *screen_create(char *name, uint16_t x, uint16_t y, uint16_t w, u
 
 struct screen_t *screen_create_from_file(char *fn) {
   char *json;
+  struct screen_t *screen = NULL;
+
+  json = json_fread(fn);
+  if (!json) {
+    LOG(LL_ERROR, ("%s: Could not json_fread()", fn));
+    return NULL;
+  }
+
+  screen = screen_create_from_json(json);
+  free (json);
+  return screen;
+}
+
+struct screen_t *screen_create_from_json(char *json) {
   void *h = NULL;
 //  struct json_token key;
   struct json_token val;
@@ -28,15 +42,8 @@ struct screen_t *screen_create_from_file(char *fn) {
   int screen_x, screen_y, screen_w, screen_h;
   char *screen_name = NULL;
 
-
-  json = json_fread(fn);
-  if (!json) {
-    LOG(LL_ERROR, ("Could not read file %s", fn));
-    goto exit;
-  }
-
   if (json_scanf(json, strlen(json), "{x:%d,y:%d,w:%d,h:%d,name:%Q}", &screen_x, &screen_y, &screen_w, &screen_h, &screen_name) != 5) {
-    LOG(LL_ERROR, ("%s: Incomplete JSON: require 'x', 'y', 'w', 'h' and 'name' fields", fn));
+    LOG(LL_ERROR, ("Incomplete JSON: require 'x', 'y', 'w', 'h' and 'name' fields"));
     screen=NULL; goto exit;
   }
   screen = screen_create(screen_name, screen_x, screen_y, screen_w, screen_h);
@@ -61,7 +68,6 @@ struct screen_t *screen_create_from_file(char *fn) {
   }
 
 exit:
-  if (json) free(json);
   if (screen_name) free(screen_name);
   return screen;
 }

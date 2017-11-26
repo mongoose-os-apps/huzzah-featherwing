@@ -16,6 +16,7 @@ struct screen_t {
 
 struct screen_t *screen_create(char *name, uint16_t x, uint16_t y, uint16_t w, uint16_t h);
 struct screen_t *screen_create_from_file(char *fn);
+struct screen_t *screen_create_from_json(char *json);
 void screen_destroy(struct screen_t **s);
 
 bool screen_widget_add(struct screen_t *s, struct widget_t *w);
