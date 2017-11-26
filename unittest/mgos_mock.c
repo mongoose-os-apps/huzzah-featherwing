@@ -3,6 +3,8 @@
 
 #include "mgos_mock.h"
 
+int _mgos_timers = 0;
+
 int log_print_prefix(enum cs_log_level l, const char *func, const char *file) {
   char ll_str[6];
 
@@ -30,15 +32,19 @@ int log_print_prefix(enum cs_log_level l, const char *func, const char *file) {
 }
 
 mgos_timer_id mgos_set_timer(int msecs, int flags, timer_callback cb, void *cb_arg) {
+  _mgos_timers++;
+  LOG(LL_INFO, ("Installing timer -- %d timers currently installed)", _mgos_timers));
   (void) msecs;
   (void) flags;
   (void) cb;
   (void) cb_arg;
 
-  return 0;
+  return _mgos_timers;
 }
 
 void mgos_clear_timer(mgos_timer_id id) {
+  _mgos_timers--;
+  LOG(LL_INFO, ("Clearing timer -- %d timers currently installed)", _mgos_timers));
   (void) id;
 
   return;

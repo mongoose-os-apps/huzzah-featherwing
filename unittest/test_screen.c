@@ -2,6 +2,8 @@
 #include "screen.h"
 #include "widget.h"
 
+extern int _mgos_timers;
+
 
 static void test_screen_widget_add_and_remove(struct screen_t *s, const char *fn) {
   struct widget_t *w1;
@@ -114,6 +116,9 @@ int test_screen() {
   LOG(LL_INFO, ("screen_destroy()"));
   screen_destroy(&s);
   ASSERT(!s, "Could not destroy screen");
+
+  LOG(LL_INFO, ("ensure we have no timers"));
+  ASSERT(_mgos_timers==0, "timers found");
 
   return 0;
 }
