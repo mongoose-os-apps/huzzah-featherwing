@@ -1,6 +1,6 @@
 #include "mgos.h"
 #include "tft.h"
-#include "widget.h"
+#include "mongoose-touch.h"
 
 static void widget_topbar_render(struct widget_t *w, void *ev_data) {
   if (!w)

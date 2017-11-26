@@ -1,6 +1,6 @@
 #include "mgos.h"
 #include "tft.h"
-#include "widget.h"
+#include "mongoose-touch.h"
 
 static void widget_time_render(struct widget_t *w, void *ev_data) {
   char tmp_buff[32];

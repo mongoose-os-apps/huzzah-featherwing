@@ -1,7 +1,7 @@
 #include "mgos.h"
 #include "mgos_timers.h"
 #include "tft.h"
-#include "widget.h"
+#include "mongoose-touch.h"
 
 static mgos_timer_id send_timer = 0;
 static mgos_timer_id recv_timer = 0;

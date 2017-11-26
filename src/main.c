@@ -4,7 +4,7 @@
 #include "mgos.h"
 #include "tft.h"
 #include "stmpe610.h"
-#include "widget.h"
+#include "mongoose-touch.h"
 
 static long map(long x, long in_min, long in_max, long out_min, long out_max) {
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;

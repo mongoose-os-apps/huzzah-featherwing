@@ -3,7 +3,7 @@
 #include "mgos_wifi.h"
 #include "mgos_net.h"
 #include "tft.h"
-#include "widget.h"
+#include "mongoose-touch.h"
 
 #define WIDGET_NAME_NAME    0
 #define WIDGET_NAME_IPADDR  1

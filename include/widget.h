@@ -30,16 +30,4 @@ struct widget_t *widget_add_from_file(const char *fn, uint32_t timer_msec, widge
 struct widget_t *widget_find(uint16_t x, uint16_t y);
 void widget_remove(struct widget_t *widget);
 
-void widget_time_ev(int ev, struct widget_t *w, void *ev_data);
-
-void widget_wifi_ev(int ev, struct widget_t *w, void *ev_data);
-
-void widget_network_ev(int ev, struct widget_t *w, void *ev_data);
-void widget_network_send();
-void widget_network_recv();
-
-void widget_topbar_ev(int ev, struct widget_t *w, void *ev_data);
-
-void widget_name_ev(int ev, struct widget_t *w, void *ev_data);
-
 #endif // __WIDGET_H

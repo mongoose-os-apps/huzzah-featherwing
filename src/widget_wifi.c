@@ -1,6 +1,6 @@
 #include "mgos.h"
 #include "tft.h"
-#include "widget.h"
+#include "mongoose-touch.h"
 #include <esp_wifi.h>
 
 static long map(long x, long in_min, long in_max, long out_min, long out_max)
