@@ -2388,6 +2388,11 @@ void mgos_ili9341_jpg_image(int x, int y, uint8_t scale, char *fname, uint8_t *b
     dev.linbuf_idx = 0;
 
    	dev.fhndl = NULL;
+
+
+  x+= dispWin.x1;
+  y+= dispWin.y1;
+
     if (fname == NULL) {
     	// image from buffer
         dev.membuff = buf;
