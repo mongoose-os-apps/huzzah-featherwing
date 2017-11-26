@@ -73,8 +73,8 @@ exit:
 }
 
 void screen_destroy(struct screen_t **s) {
-  free(*s);
   if ((*s)->name) free ((*s)->name);
+  free(*s);
   *s = NULL;
 }
 
