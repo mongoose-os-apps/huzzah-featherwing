@@ -9,6 +9,7 @@
 
 #include <stdlib.h>
 #include "tftspi.h"
+#include "upng.h"
 
 typedef struct {
 	uint16_t        x1;
@@ -601,43 +602,8 @@ void mgos_ili9341_clearStringRect(int x, int y, char *str);
 //----------------------------------------------------------
 color_t HSBtoRGB(float _hue, float _sat, float _brightness);
 
-/*
- * Decodes and displays JPG image
- * Limits:
- * 		Baseline only. Progressive and Lossless JPEG format are not supported.
- *		Image size: Up to 65520 x 65520 pixels
- *		Color space: YCbCr three components only. Gray scale image is not supported.
- *		Sampling factor: 4:4:4, 4:2:2 or 4:2:0.
- *
- * Params:
- *       x: image left position; constants CENTER & RIGHT can be used; negative value is accepted
- *       y: image top position;  constants CENTER & BOTTOM can be used; negative value is accepted
- *   scale: image scale factor: 0~3; if scale>0, image is scaled by factor 1/(2^scale) (1/2, 1/4 or 1/8)
- *   fname: pointer to the name of the file from which the image will be read
- *   		if set to NULL, image will be read from memory buffer pointed to by 'buf'
- *     buf: pointer to the memory buffer from which the image will be read; used if fname=NULL
- *    size: size of the memory buffer from which the image will be read; used if fname=NULL & buf!=NULL
- *
- */
-//-----------------------------------------------------------------------------------
-void mgos_ili9341_jpg_image(int x, int y, uint8_t scale, char *fname, uint8_t *buf, int size);
-
-/*
- * Decodes and displays BMP image
- * Only uncompressed RGB 24-bit with no color space information BMP images can be displayed
- *
- * Params:
- *       x: image left position; constants CENTER & RIGHT can be used; negative value is accepted
- *       y: image top position;  constants CENTER & BOTTOM can be used; negative value is accepted
- *   scale: image scale factor: 0~7; if scale>0, image is scaled by factor 1/(scale+1)
- *   fname: pointer to the name of the file from which the image will be read
- *   		if set to NULL, image will be read from memory buffer pointed to by 'imgbuf'
- *  imgbuf: pointer to the memory buffer from which the image will be read; used if fname=NULL
- *    size: size of the memory buffer from which the image will be read; used if fname=NULL & imgbuf!=NULL
- *
- */
-//-------------------------------------------------------------------------------------
-int mgos_ili9341_bmp_image(int x, int y, uint8_t scale, char *fname, uint8_t *imgbuf, int size);
+/* Draw PNG at coords x,y */
+int mgos_ili9341_png(int x, int y, char *fname);
 
 /*
  * Compile font c source file to .fnt file
