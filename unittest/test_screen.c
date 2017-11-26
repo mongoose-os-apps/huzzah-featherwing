@@ -4,6 +4,25 @@
 
 extern int _mgos_timers;
 
+static void test_screen_default_ev(int ev, struct widget_t *w, void *ev_data) {
+  if (!w)
+    return;
+
+  LOG(LL_INFO, ("Event %d received for widget '%s'", ev, w->name));
+
+  switch(ev) {
+    case EV_WIDGET_CREATE:
+    case EV_WIDGET_DRAW:
+    case EV_WIDGET_REDRAW:
+    case EV_WIDGET_TIMER:
+    case EV_WIDGET_TOUCH_UP:
+    case EV_WIDGET_TOUCH_DOWN:
+    case EV_WIDGET_DESTROY:
+    default: // EV_WIDGET_NONE
+      break;
+  }
+  (void) ev_data;
+}
 
 static void test_screen_widget_add_and_remove(struct screen_t *s, const char *fn) {
   struct widget_t *w1;
@@ -84,12 +103,12 @@ int test_screen() {
   uint16_t num_widgets;
 
   LOG(LL_INFO, ("screen_create_from_file(data/TestScreen-invalid.json)"));
-  s = screen_create_from_file("data/TestScreen-invalid.json");
+  s = screen_create_from_file("data/TestScreen-invalid.json", test_screen_default_ev, NULL);
   ASSERT(!s, "created screen from invalid date");
 
   num_widgets = screen_get_num_widgets(s);
   LOG(LL_INFO, ("screen_create_from_file(data/TestScreen.json)"));
-  s = screen_create_from_file("data/TestScreen.json");
+  s = screen_create_from_file("data/TestScreen.json", test_screen_default_ev, NULL);
   ASSERT(s, "Could not create screen");
 
   num_widgets = screen_get_num_widgets(s);

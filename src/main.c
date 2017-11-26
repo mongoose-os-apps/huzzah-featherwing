@@ -50,11 +50,12 @@ void tft_demo(void)
   mgos_ili9341_jpg_image(CENTER, CENTER, 1, "mongoose-os.jpg", NULL, 0);
 //  mgos_ili9341_jpg_image(200, 150, 2, "flower.jpg", NULL, 0);
 
-  screen = screen_create_from_file("/screen_main.json");
+  screen = screen_create_from_file("/screen_main.json", widget_default_ev, NULL);
   if (!screen) {
     LOG(LL_ERROR, ("Could not load screen"));
     return;
   }
+
   w = widget_create("name", 0, 0, 198, 20);
   widget_set_handler(w, widget_name_ev, NULL);
   screen_widget_add(screen, w);

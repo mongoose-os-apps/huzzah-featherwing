@@ -16,4 +16,7 @@ void widget_topbar_ev(int ev, struct widget_t *w, void *ev_data);
 
 void widget_name_ev(int ev, struct widget_t *w, void *ev_data);
 
+void widget_default_ev(int ev, struct widget_t *w, void *ev_data);
+
+
 #endif // __MONGOOSE_TOUCH_H

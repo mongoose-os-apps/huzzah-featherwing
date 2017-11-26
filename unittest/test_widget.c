@@ -3,6 +3,26 @@
 
 extern int _mgos_timers;
 
+static void test_widget_default_ev(int ev, struct widget_t *w, void *ev_data) {
+  if (!w)
+    return;
+
+  LOG(LL_INFO, ("Event %d received for widget '%s'", ev, w->name));
+
+  switch(ev) {
+    case EV_WIDGET_CREATE:
+    case EV_WIDGET_DRAW:
+    case EV_WIDGET_REDRAW:
+    case EV_WIDGET_TIMER:
+    case EV_WIDGET_TOUCH_UP:
+    case EV_WIDGET_TOUCH_DOWN:
+    case EV_WIDGET_DESTROY:
+    default: // EV_WIDGET_NONE
+      break;
+  }
+  (void) ev_data;
+}
+
 static int test_widget_create_from_file(void) {
   struct widget_t *w;
   int ret;
@@ -23,6 +43,10 @@ static int test_widget_create_from_file(void) {
   LOG(LL_INFO, ("widget_set_timer()"));
   widget_set_timer(w, 1000);
   ASSERT(_mgos_timers==1, "timer not found");
+
+  LOG(LL_INFO, ("widget_set_handler()"));
+  widget_set_handler(w, test_widget_default_ev, NULL);
+  
 
   LOG(LL_INFO, ("widget_delete_timer()"));
   widget_delete_timer(w);

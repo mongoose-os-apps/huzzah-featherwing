@@ -17,7 +17,7 @@ struct screen_t *screen_create(char *name, uint16_t x, uint16_t y, uint16_t w, u
   return screen;
 }
 
-struct screen_t *screen_create_from_file(char *fn) {
+struct screen_t *screen_create_from_file(char *fn, widget_event_fn handler, void *user_data) {
   char *json;
   struct screen_t *screen = NULL;
 
@@ -27,12 +27,12 @@ struct screen_t *screen_create_from_file(char *fn) {
     return NULL;
   }
 
-  screen = screen_create_from_json(json);
+  screen = screen_create_from_json(json, handler, user_data);
   free (json);
   return screen;
 }
 
-struct screen_t *screen_create_from_json(char *json) {
+struct screen_t *screen_create_from_json(char *json, widget_event_fn handler, void *user_data) {
   void *h = NULL;
 //  struct json_token key;
   struct json_token val;
@@ -47,6 +47,9 @@ struct screen_t *screen_create_from_json(char *json) {
     screen=NULL; goto exit;
   }
   screen = screen_create(screen_name, screen_x, screen_y, screen_w, screen_h);
+  if (!screen)
+    return NULL;
+  screen_widget_set_handler(screen, handler, user_data);
   
 /*
   // Traverse Object
@@ -61,6 +64,7 @@ struct screen_t *screen_create_from_json(char *json) {
 //    printf("[%d]: [%.*s]\n", idx, val.len, val.ptr);
     if (val.len>0 && val.ptr) {
       widget = widget_create_from_json(val.ptr);
+      widget_set_handler(widget, screen->default_widget_handler, screen->default_user_data);
       if (!screen_widget_add(screen, widget)) {
         LOG(LL_ERROR, ("Could not add widget to screen"));
       }
@@ -99,6 +103,7 @@ struct widget_t *screen_widget_add_from_file(struct screen_t *s, char *fn) {
   w = widget_create_from_file(fn);
   if (!w)
     return NULL;
+  widget_set_handler(w, s->default_widget_handler, s->default_user_data);
   screen_widget_add(s, w);
   return w;
 }
@@ -144,4 +149,12 @@ struct widget_t *screen_widget_find_by_xy(struct screen_t *s, uint16_t x, uint16
       return wl->widget;
   }
   return NULL;
+}
+
+void screen_widget_set_handler(struct screen_t *s, widget_event_fn handler, void *user_data) {
+  if (!s)
+    return;
+  s->default_widget_handler=handler;
+  s->default_user_data=user_data;
+  return;
 }
