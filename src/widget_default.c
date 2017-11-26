@@ -10,7 +10,7 @@ static void widget_default_draw(struct widget_t *w) {
   mgos_ili9341_drawRect(0, 0, w->w, w->h, ILI9341_GREEN);
 
   if (w->img)
-    mgos_ili9341_jpg_image(0, 0, 1, w->img, NULL, 0);
+    mgos_ili9341_png(0, 0, w->img);
 }
 
 void widget_default_ev(int ev, struct widget_t *w, void *ev_data) {

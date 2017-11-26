@@ -23,12 +23,12 @@
     },
     {
       "name": "logo",
-      "x": 88,
-      "y": 48,
-      "w": 144,
-      "h": 144,
+      "x": 96,
+      "y": 61,
+      "w": 128,
+      "h": 98,
       "type": 1,
-      "img": "/mongoose-os.jpg"
+      "img": "/mongoose-os.png"
     }
   ]
 }
