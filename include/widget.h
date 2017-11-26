@@ -39,6 +39,10 @@ void widget_remove(struct widget_t *widget);
 */
 
 struct widget_t *widget_create(char *name, uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t timer_msec, widget_event_fn handler, void *user_data);
+void widget_set_handler(struct widget_t *w, widget_event_fn handler, void *user_data);
+void widget_delete_handler(struct widget_t *w);
+void widget_set_timer(struct widget_t *w, uint32_t timer_msec);
+void widget_delete_timer(struct widget_t *w);
 struct widget_t *widget_create_from_json(const char *json);
 struct widget_t *widget_create_from_file(const char *fn);
 void widget_destroy(struct widget_t **widget);
