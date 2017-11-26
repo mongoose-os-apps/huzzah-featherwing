@@ -17,6 +17,7 @@ struct widget_t;
 typedef void (*widget_event_fn)(int ev, struct widget_t *w, void *ev_data);
 
 struct widget_t {
+  char *name;
   uint16_t x, y, w, h;
 
   uint32_t timer_msec;      // 0 to disable
@@ -32,14 +33,14 @@ struct widget_list_t {
   SLIST_ENTRY(widget_list_t) entries;
 };
 
-struct widget_t *widget_add(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t timer_msec, widget_event_fn handler, void *user_data);
-struct widget_t *widget_add_from_file(const char *fn, uint32_t timer_msec, widget_event_fn handler, void *user_data);
+/*
 struct widget_t *widget_find(uint16_t x, uint16_t y);
 void widget_remove(struct widget_t *widget);
+*/
 
-struct widget_t *widget_create(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t timer_msec, widget_event_fn handler, void *user_data);
-struct widget_t *widget_create_from_file(const char *fn);
+struct widget_t *widget_create(char *name, uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t timer_msec, widget_event_fn handler, void *user_data);
 struct widget_t *widget_create_from_json(const char *json);
+struct widget_t *widget_create_from_file(const char *fn);
 void widget_destroy(struct widget_t **widget);
 
 

@@ -3,7 +3,7 @@
 #include "widget.h"
 
 
-static void test_widget_add_and_remove(struct screen_t *s, const char *fn) {
+static void test_screen_widget_add_and_remove(struct screen_t *s, const char *fn) {
   struct widget_t *w1;
   int num_widgets_before, num_widgets;
   bool ret;
@@ -27,11 +27,45 @@ static void test_widget_add_and_remove(struct screen_t *s, const char *fn) {
   ASSERT(num_widgets == num_widgets_before, "Too many widgets in screen");
 
   return;
-
-  (void) s;
-  (void) fn;
 }
 
+static void test_screen_widget_find(struct screen_t *s) {
+  struct widget_t *w;
+  uint16_t x, y;
+
+  x=16; y=16;
+  LOG(LL_INFO, ("want to find widget at (%d,%d)", x, y));
+  w = screen_widget_find_by_xy(s, x, y);
+  ASSERT(w, "widget not found");
+
+  x=256; y=16;
+  LOG(LL_INFO, ("want to find widget at (%d,%d)", x, y));
+  w = screen_widget_find_by_xy(s, x, y);
+  ASSERT(w, "widget not found");
+
+  x=256+47; y=16+47;
+  LOG(LL_INFO, ("want to find widget at (%d,%d)", x, y));
+  w = screen_widget_find_by_xy(s, x, y);
+  ASSERT(w, "widget not found");
+
+  x=16+47; y=16+47;
+  LOG(LL_INFO, ("want to find widget at (%d,%d)", x, y));
+  w = screen_widget_find_by_xy(s, x, y);
+  ASSERT(w, "widget not found");
+
+  x=15; y=16;
+  LOG(LL_INFO, ("do not want to find widget at (%d,%d)", x, y));
+  w = screen_widget_find_by_xy(s, x, y);
+  ASSERT(!w, "widget found");
+
+  x=256+48; y=16+48;
+  LOG(LL_INFO, ("do not want to find widget at (%d,%d)", x, y));
+  w = screen_widget_find_by_xy(s, x, y);
+  ASSERT(!w, "widget found");
+
+
+  (void) s;
+}
 
 int test_screen() {
   struct screen_t *s = NULL;
@@ -46,8 +80,8 @@ int test_screen() {
   LOG(LL_INFO, ("Screen has %d widget(s)", num_widgets));
   ASSERT(num_widgets == 2, "Expecting 2 widgets in screen");
   
-  LOG(LL_INFO, ("test_widget_add_and_remove(data/TestWidget.json)"));
-  test_widget_add_and_remove(s, "data/TestWidget.json");
+  LOG(LL_INFO, ("test_screen_widget_add_and_remove(data/TestWidget.json)"));
+  test_screen_widget_add_and_remove(s, "data/TestWidget.json");
 
   num_widgets = screen_get_num_widgets(s);
   LOG(LL_INFO, ("Screen has %d widget(s)", num_widgets));
@@ -68,8 +102,10 @@ int test_screen() {
   num_widgets = screen_get_num_widgets(s);
   LOG(LL_INFO, ("Screen has %d widget(s)", num_widgets));
   ASSERT(num_widgets == 2, "Expecting 2 widgets in screen");
-  
 
+  LOG(LL_INFO, ("test_screen_widget_find()"));
+  test_screen_widget_find(s);
+  
   LOG(LL_INFO, ("screen_destroy()"));
   screen_destroy(&s);
   ASSERT(!s, "Could not destroy screen");

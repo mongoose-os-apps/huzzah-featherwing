@@ -75,6 +75,9 @@ void screen_destroy(struct screen_t **s) {
 bool screen_widget_add(struct screen_t *s, struct widget_t *w) {
   struct widget_list_t *wl;
 
+  if (!s || !w)
+    return false;
+
   wl = (struct widget_list_t *) calloc(1, sizeof(*wl));
   if (!wl) {
     return false;
@@ -118,4 +121,21 @@ uint16_t screen_get_num_widgets(struct screen_t *s) {
     num++;
   
   return num;
+}
+
+struct widget_t *screen_widget_find_by_xy(struct screen_t *s, uint16_t x, uint16_t y) {
+  struct widget_list_t *wl;
+
+  if (!s)
+    return NULL;
+
+  SLIST_FOREACH(wl, &s->widget_entries, entries) {
+    LOG(LL_INFO, ("Inspecing widget '%s' (x=%d,y=%d,w=%d,h=%d)", wl->widget->name, wl->widget->x, wl->widget->y, wl->widget->w, wl->widget->h));
+    if (wl->widget->x <= x &&
+        x < (wl->widget->x+wl->widget->w) &&
+        wl->widget->y <= y &&
+        y < (wl->widget->y+wl->widget->h))
+      return wl->widget;
+  }
+  return NULL;
 }

@@ -24,5 +24,6 @@ struct widget_t *screen_widget_add_from_file(struct screen_t *s, char *fn);
 bool screen_widget_destroy(struct screen_t *s, struct widget_t **w);
 
 uint16_t screen_get_num_widgets(struct screen_t *s);
+struct widget_t *screen_widget_find_by_xy(struct screen_t *s, uint16_t x, uint16_t y);
 
 #endif //__SCREEN_H

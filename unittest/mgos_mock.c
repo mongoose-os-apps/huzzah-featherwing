@@ -25,7 +25,7 @@ int log_print_prefix(enum cs_log_level l, const char *func, const char *file) {
     default: // LL_NONE
       return 0;
   }
-  printf ("%-5s %-15s %-15s| ", ll_str, file, func);
+  printf ("%-5s %-15s %-40s| ", ll_str, file, func);
   return 1;
 }
 

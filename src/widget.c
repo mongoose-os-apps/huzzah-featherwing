@@ -3,8 +3,6 @@
 #include "frozen/frozen.h"
 #include "common/queue.h"
 
-SLIST_HEAD(widget_list, widget_list_t) s_widgets;
-
 static void widget_event_timer(void *arg) {
   struct widget_t *widget = (struct widget_t *) arg;
   if (!widget)
@@ -27,92 +25,14 @@ void widget_destroy(struct widget_t **widget) {
   *widget=NULL;
 }
 
-struct widget_t *widget_add(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t timer_msec, widget_event_fn handler, void *user_data) {
-  struct widget_t *widget;
-  struct widget_list_t *wl;
-
-  wl = (struct widget_list_t *) calloc(1, sizeof(*wl));
-  if (!wl) {
-    return NULL;
-  }
-
-  widget = widget_create(x, y, w, h, timer_msec, handler, user_data);
-  if (!widget) {
-    free(wl);
-    return NULL;
-  }
-
-  wl->widget = widget;
-  SLIST_INSERT_HEAD(&s_widgets, wl, entries);
-
-  return widget;
-}
-
-struct widget_t *widget_find(uint16_t x, uint16_t y) {
-  struct widget_list_t *wl;
-
-  SLIST_FOREACH(wl, &s_widgets, entries) {
-    if (wl->widget->x < x &&
-        x < (wl->widget->x+wl->widget->w) &&
-        wl->widget->y < y &&
-        y < (wl->widget->y+wl->widget->h))
-      return wl->widget;
-  }
-  return NULL;
-}
-
-void widget_remove(struct widget_t *widget) {
-  struct widget_list_t *wl;
-  if (!widget)
-    return;
-
-  SLIST_FOREACH(wl, &s_widgets, entries) {
-    if (wl->widget == widget) {
-      SLIST_REMOVE(&s_widgets, wl, widget_list_t, entries);
-      widget_destroy(&widget);
-    }
-  }
-}
-
-struct widget_t *widget_add_from_file(const char *fn, uint32_t timer_msec, widget_event_fn handler, void *user_data) {
-  char *json;
-  int x, y, w, h;
-  int type = 0;
-  char *label = NULL;
-  char *icon = NULL;
-  struct widget_t *widget=NULL;
-
-  json = json_fread(fn);
-  if (!json) {
-    LOG(LL_ERROR, ("%s: Could not json_fread()", fn));
-    widget=NULL; goto exit;
-  }
-  if (json_scanf(json, strlen(json), "{x:%d,y:%d,w:%d,h:%d}", &x, &y, &w, &h) != 4) {
-    LOG(LL_ERROR, ("%s: Incomplete JSON: require 'x', 'y', 'w', 'h' fields", fn));
-    widget=NULL; goto exit;
-  }
-  json_scanf(json, strlen(json), "{type:%d,label:%Q,icon:%Q}", &type, &label, &icon);
-  free(json);
-
-  LOG(LL_INFO, ("%s: x=%d y=%d w=%d h=%d type=%d label='%s' icon='%s'", fn, x, y, w, h, type, label?label:"(empty)",icon?icon:"(empty)"));
-  widget = widget_add(x, y, w, h, 0, NULL, NULL);
-
-exit:
-  if (label) free(label);
-  if (icon) free(icon);
-  return widget;
-
-  (void) timer_msec;
-  (void) handler;
-  (void) user_data;
-}
-
-struct widget_t *widget_create(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t timer_msec, widget_event_fn handler, void *user_data) {
+struct widget_t *widget_create(char *name, uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t timer_msec, widget_event_fn handler, void *user_data) {
   struct widget_t *widget;
 
   widget = (struct widget_t *) calloc(1, sizeof(*widget));
   if (!widget)
     return NULL;
+  if (name)
+    widget->name=strdup(name);
   widget->x=x; 
   widget->y=y; 
   widget->w=w; 
@@ -133,15 +53,17 @@ struct widget_t *widget_create_from_json(const char *json) {
   struct widget_t *widget=NULL;
   int x, y, w, h;
   int type = 0;
+  char *name = NULL;
   char *label = NULL;
   char *icon = NULL;
 
-  if (json_scanf(json, strlen(json), "{x:%d,y:%d,w:%d,h:%d}", &x, &y, &w, &h) != 4) {
-    LOG(LL_ERROR, ("Incomplete JSON: require 'x', 'y', 'w', 'h' fields"));
+  if (json_scanf(json, strlen(json), "{name:%Q,x:%d,y:%d,w:%d,h:%d}", &name, &x, &y, &w, &h) != 5) {
+    LOG(LL_ERROR, ("Incomplete JSON: require 'x', 'y', 'w', 'h' and 'name' fields"));
     return NULL;
   }
   json_scanf(json, strlen(json), "{type:%d,label:%Q,icon:%Q}", &type, &label, &icon);
-  widget = widget_create(x, y, w, h, 0, NULL, NULL);
+  widget = widget_create(name, x, y, w, h, 0, NULL, NULL);
+  if (name) free(name);
   return widget;
 }
 

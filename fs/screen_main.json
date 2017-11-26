@@ -1,9 +1,9 @@
 {
-  "name": "TestScreen",
-  "x": 0,
+  "name": "Main",
+  "x": 20,
   "y": 0,
   "w": 320,
-  "h": 240,
+  "h": 220,
 
   "widgets": [
     {
