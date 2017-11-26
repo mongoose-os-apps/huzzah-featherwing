@@ -60,14 +60,14 @@ void widget_network_ev(int ev, struct widget_t *w, void *ev_data) {
     case EV_WIDGET_REDRAW:
       widget_network_render(w, ev_data);
       break;
-    case EV_WIDGET_TIMER:
-    case EV_WIDGET_TOUCH_UP:
-    case EV_WIDGET_TOUCH_DOWN:
     case EV_WIDGET_DESTROY:
       widget_network=NULL;
       send_timer=0;
       recv_timer=0;
       break;
+    case EV_WIDGET_TIMER:
+    case EV_WIDGET_TOUCH_UP:
+    case EV_WIDGET_TOUCH_DOWN:
     default: // EV_WIDGET_NONE
       break;
   }
