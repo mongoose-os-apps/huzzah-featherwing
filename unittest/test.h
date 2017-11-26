@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "frozen.h"
+#include "frozen/frozen.h"
 #include "mgos_mock.h"
 
 int test_widget(void);

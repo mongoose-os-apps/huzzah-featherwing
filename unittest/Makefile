@@ -9,16 +9,16 @@ INCLUDE = ../include
 default: $(TARGET)
 all: default
 
-OBJ_WIDGET = $(patsubst %.c, %.o, $(wildcard *.c))
+OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c)) frozen/frozen.o
 HEADERS = $(wildcard *.h)
 
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -I$(INCLUDE) -c $< -o $@
 
-.PRECIOUS: $(TARGET) $(OBJ_WIDGET)
+.PRECIOUS: $(TARGET) $(OBJECTS)
 
-$(TARGET): $(OBJ_WIDGET)
-	$(CC) $(CFLAGS) -I$(INCLUDE) $(OBJ_WIDGET) $(LIBS) -o $@
+$(TARGET): $(OBJECTS)
+	$(CC) $(CFLAGS) -I$(INCLUDE) $(OBJECTS) $(LIBS) -o $@
 
 clean:
 	-rm -f *.o
