@@ -28,14 +28,12 @@ static void touch_handler(struct mgos_stmpe610_event_data *ed) {
   }
 
   if (ed->direction==TOUCH_DOWN) {
-//    mgos_ili9341_drawCircle(x, y, ed->length, ILI9341_YELLOW);
     widget_network_recv();
-    if (widget)
+    if (widget && widget->handler)
       widget->handler(EV_WIDGET_TOUCH_DOWN, widget, NULL);
   } else {
-//    mgos_ili9341_drawCircle(x, y, ed->length, ILI9341_BLUE);
     widget_network_send();
-    if (widget)
+    if (widget && widget->handler)
       widget->handler(EV_WIDGET_TOUCH_UP, widget, NULL);
   }
 }
@@ -52,7 +50,11 @@ void tft_demo(void)
   mgos_ili9341_jpg_image(CENTER, CENTER, 1, "mongoose-os.jpg", NULL, 0);
 //  mgos_ili9341_jpg_image(200, 150, 2, "flower.jpg", NULL, 0);
 
-  screen = screen_create_from_file("fs/screen_main.json");
+  screen = screen_create_from_file("/screen_main.json");
+  if (!screen) {
+    LOG(LL_ERROR, ("Could not load screen"));
+    return;
+  }
   w = widget_create("name", 0, 0, 198, 20);
   widget_set_handler(w, widget_name_ev, NULL);
   screen_widget_add(screen, w);
@@ -74,6 +76,8 @@ void tft_demo(void)
   w = widget_create("topbar", 0, 21, 320, 2);
   widget_set_handler(w, widget_topbar_ev, NULL);
   screen_widget_add(screen, w);
+
+  LOG(LL_INFO, ("Screen '%s' has %d widgets", screen->name, screen_get_num_widgets(screen)));
 }
 
 enum mgos_app_init_result mgos_app_init(void)
