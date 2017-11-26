@@ -26,6 +26,7 @@ struct widget_t {
 
   // Private
   mgos_timer_id _timer_id;
+  uint8_t create_called;
 };
 
 struct widget_list_t {

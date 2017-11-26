@@ -41,6 +41,7 @@ struct widget_t *widget_create(char *name, uint16_t x, uint16_t y, uint16_t w, u
   widget->handler = NULL;
   widget->timer_msec = 0;
   widget->_timer_id = 0;
+  widget->create_called = false;
 
   return widget;
 }
@@ -82,6 +83,9 @@ void widget_set_handler(struct widget_t *w, widget_event_fn handler, void *user_
     return;
   w->handler = handler;
   w->user_data = user_data;
+  if (!w->create_called && w->handler)
+    handler(EV_WIDGET_CREATE, w, NULL);
+    
   return;
 }
 
