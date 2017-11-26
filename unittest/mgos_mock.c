@@ -4,7 +4,7 @@
 #include "mgos_mock.h"
 
 int log_print_prefix(enum cs_log_level l, const char *func, const char *file) {
-  char ll_str[8];
+  char ll_str[6];
 
   switch(l) {
     case LL_ERROR:
