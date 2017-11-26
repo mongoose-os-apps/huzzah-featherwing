@@ -26,6 +26,7 @@ struct widget_t {
 };
 
 struct widget_t *widget_add(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t timer_msec, widget_event_fn handler, void *user_data);
+struct widget_t *widget_add_from_file(const char *fn, uint32_t timer_msec, widget_event_fn handler, void *user_data);
 struct widget_t *widget_find(uint16_t x, uint16_t y);
 void widget_remove(struct widget_t *widget);
 

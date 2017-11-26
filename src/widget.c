@@ -1,5 +1,7 @@
 #include "mgos.h"
 #include "widget.h"
+#include "frozen/frozen.h"
+#include "common/queue.h"
 
 struct widget_list_t {
   struct widget_t *widget;
@@ -83,4 +85,37 @@ void widget_remove(struct widget_t *widget) {
       widget_destroy(widget);
     }
   }
+}
+
+struct widget_t *widget_add_from_file(const char *fn, uint32_t timer_msec, widget_event_fn handler, void *user_data) {
+  char *json;
+  int x, y, w, h;
+  int type = 0;
+  char *label = NULL;
+  char *icon = NULL;
+  struct widget_t *widget=NULL;
+
+  json = json_fread(fn);
+  if (!json) {
+    LOG(LL_ERROR, ("%s: Could not json_fread()", fn));
+    widget=NULL; goto exit;
+  }
+  if (json_scanf(json, strlen(json), "{x:%d,y:%d,w:%d,h:%d}", &x, &y, &w, &h) != 4) {
+    LOG(LL_ERROR, ("%s: Incomplete JSON: require 'x', 'y', 'w', 'h' fields", fn));
+    widget=NULL; goto exit;
+  }
+  json_scanf(json, strlen(json), "{type:%d,label:%Q,icon:%Q}", &type, &label, &icon);
+  free(json);
+
+  LOG(LL_INFO, ("%s: x=%d y=%d w=%d h=%d type=%d label='%s' icon='%s'", fn, x, y, w, h, type, label?label:"(empty)",icon?icon:"(empty)"));
+  widget = widget_add(x, y, w, h, 0, NULL, NULL);
+
+exit:
+  if (label) free(label);
+  if (icon) free(icon);
+  return widget;
+
+  (void) timer_msec;
+  (void) handler;
+  (void) user_data;
 }

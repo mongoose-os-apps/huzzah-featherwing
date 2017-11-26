@@ -28,3 +28,18 @@ int log_print_prefix(enum cs_log_level l, const char *func, const char *file) {
   printf ("%-5s %-10s %-15s| ", ll_str, file, func);
   return 1;
 }
+
+mgos_timer_id mgos_set_timer(int msecs, int flags, timer_callback cb, void *cb_arg) {
+  (void) msecs;
+  (void) flags;
+  (void) cb;
+  (void) cb_arg;
+
+  return 0;
+}
+
+void mgos_clear_timer(mgos_timer_id id) {
+  (void) id;
+
+  return;
+}

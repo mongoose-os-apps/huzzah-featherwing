@@ -1,8 +1,7 @@
 TARGET = test
 LIBS =
 CC = gcc
-CFLAGS = -g -Wall
-INCLUDE = ../include
+CFLAGS = -g -Wall -I../include -I./
 
 .PHONY: default all clean
 
@@ -10,16 +9,16 @@ default: $(TARGET)
 all: default
 
 OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
-SRCS    = frozen/frozen.c
+SRCS    = frozen/frozen.c ../src/widget.c
 HEADERS = $(wildcard *.h)
 
 %.o: %.c $(HEADERS)
-	$(CC) $(CFLAGS) -I$(INCLUDE) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 .PRECIOUS: $(TARGET) $(OBJECTS)
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) -I$(INCLUDE) $(OBJECTS) $(LIBS) $(SRCS) -o $@
+	$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) $(SRCS) -o $@
 
 clean:
 	-rm -f $(OBJECTS)
