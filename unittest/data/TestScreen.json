@@ -1,0 +1,21 @@
+{
+  "name": "TestScreen",
+  "widgets": [
+    {
+      "x": 16,
+      "y": 16,
+      "w": 48,
+      "h": 48,
+      "label": "One",
+      "type": 0
+    },
+    {
+      "x": 256,
+      "y": 16,
+      "w": 48,
+      "h": 48,
+      "label": "Two",
+      "type": 0
+    }
+  ]
+}
