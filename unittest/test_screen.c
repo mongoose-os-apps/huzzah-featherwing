@@ -9,23 +9,32 @@ static void test_screen_widget_add_and_remove(struct screen_t *s, const char *fn
   struct widget_t *w1;
   int num_widgets_before, num_widgets;
   bool ret;
+  int mgos_timers_before;
 
+  LOG(LL_INFO, ("widget_create_from_file(%s)", fn));
   w1 = widget_create_from_file(fn);
   ASSERT(w1, "widget_create_from_file() failed");
 
-  num_widgets_before = screen_get_num_widgets(s);
-  LOG(LL_INFO, ("Screen has %d widget(s)", num_widgets_before));
+  LOG(LL_INFO, ("widget_set_timer()"));
+  mgos_timers_before=_mgos_timers;
+  widget_set_timer(w1, 1000);
+  ASSERT(_mgos_timers==mgos_timers_before+1, "timer not found");
 
+  num_widgets_before = screen_get_num_widgets(s);
+  LOG(LL_INFO, ("screen has %d widget(s)", num_widgets_before));
+
+  LOG(LL_INFO, ("screen_widget_add() of widget1"));
   ret = screen_widget_add(s, w1);
   ASSERT(true == ret, "screen_widget_add() failed for widget1");
   num_widgets = screen_get_num_widgets(s);
-  LOG(LL_INFO, ("Screen has %d widget(s)", num_widgets));
+  LOG(LL_INFO, ("screen has %d widget(s)", num_widgets));
   ASSERT(num_widgets == num_widgets_before+1, "Did not see widget in screen");
 
+  LOG(LL_INFO, ("screen_widget_destroy() of widget1"));
   ret = screen_widget_destroy(s, &w1);
   ASSERT(true == ret, "screen_widget_destroy() failed for widget1");
   num_widgets = screen_get_num_widgets(s);
-  LOG(LL_INFO, ("Screen has %d widget(s)", num_widgets));
+  LOG(LL_INFO, ("screen has %d widget(s)", num_widgets));
   ASSERT(num_widgets == num_widgets_before, "Too many widgets in screen");
 
   return;
@@ -84,14 +93,14 @@ int test_screen() {
   ASSERT(s, "Could not create screen");
 
   num_widgets = screen_get_num_widgets(s);
-  LOG(LL_INFO, ("Screen has %d widget(s)", num_widgets));
+  LOG(LL_INFO, ("screen has %d widget(s)", num_widgets));
   ASSERT(num_widgets == 2, "Expecting 2 widgets in screen");
   
   LOG(LL_INFO, ("test_screen_widget_add_and_remove(data/TestWidget.json)"));
   test_screen_widget_add_and_remove(s, "data/TestWidget.json");
 
   num_widgets = screen_get_num_widgets(s);
-  LOG(LL_INFO, ("Screen has %d widget(s)", num_widgets));
+  LOG(LL_INFO, ("screen has %d widget(s)", num_widgets));
   ASSERT(num_widgets == 2, "Expecting 2 widgets in screen");
   
   LOG(LL_INFO, ("test_widget_add_from_file(data/TestWidget.json)"));
@@ -99,7 +108,7 @@ int test_screen() {
   ASSERT(w, "screen_widget_add_from_file() failed for data/TestWidget.json");
 
   num_widgets = screen_get_num_widgets(s);
-  LOG(LL_INFO, ("Screen has %d widget(s)", num_widgets));
+  LOG(LL_INFO, ("screen has %d widget(s)", num_widgets));
   ASSERT(num_widgets == 3, "Expecting 3 widgets in screen");
   
   LOG(LL_INFO, ("screen_widget_destroy()"));
