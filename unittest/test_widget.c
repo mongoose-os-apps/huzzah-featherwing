@@ -5,6 +5,7 @@ extern int _mgos_timers;
 
 static int test_widget_create_from_file(void) {
   struct widget_t *w;
+  int ret;
 
   char *fn = "data/TestWidget.json";
   LOG(LL_INFO, ("widget_create_from_file(%s)", fn));
@@ -14,6 +15,10 @@ static int test_widget_create_from_file(void) {
   ASSERT(w->y == 16, "'x' field is invalid");
   ASSERT(w->w == 48, "'x' field is invalid");
   ASSERT(w->h == 48, "'x' field is invalid");
+  ret = strncmp("/some/file.ext", w->img, strlen("/some/file.ext"));
+  ASSERT(ret == 0, "'img' field is invalid");
+  ret = strncmp("One", w->label, strlen("One"));
+  ASSERT(ret == 0, "'label' field is invalid");
 
   LOG(LL_INFO, ("widget_set_timer()"));
   widget_set_timer(w, 1000);
