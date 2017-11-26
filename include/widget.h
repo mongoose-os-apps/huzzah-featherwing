@@ -14,11 +14,21 @@ struct widget_t;
 #define EV_WIDGET_TOUCH_UP   6
 #define EV_WIDGET_TOUCH_DOWN 7
 
+enum widget_type_t {
+  WIDGET_TYPE_NONE           =0,
+  WIDGET_TYPE_IMAGE          =1,
+  WIDGET_TYPE_LOADSCREEN     =2,
+};
+
 typedef void (*widget_event_fn)(int ev, struct widget_t *w, void *ev_data);
 
 struct widget_t {
   char *name;
   uint16_t x, y, w, h;
+
+  enum widget_type_t type;
+  char *label;
+  char *img;
 
   uint32_t timer_msec;      // 0 to disable
   widget_event_fn handler;  // Event callback for this widget
@@ -33,11 +43,6 @@ struct widget_list_t {
   struct widget_t *widget;
   SLIST_ENTRY(widget_list_t) entries;
 };
-
-/*
-struct widget_t *widget_find(uint16_t x, uint16_t y);
-void widget_remove(struct widget_t *widget);
-*/
 
 struct widget_t *widget_create(char *name, uint16_t x, uint16_t y, uint16_t w, uint16_t h);
 void widget_set_handler(struct widget_t *w, widget_event_fn handler, void *user_data);

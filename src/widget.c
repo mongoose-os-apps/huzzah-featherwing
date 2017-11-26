@@ -19,8 +19,19 @@ void widget_destroy(struct widget_t **widget) {
 
   if ((*widget)->_timer_id)
     mgos_clear_timer((*widget)->_timer_id);
+
   if ((*widget)->user_data)
     free((*widget)->user_data);
+
+  if ((*widget)->name)
+    free((*widget)->name);
+
+  if ((*widget)->label)
+    free((*widget)->label);
+
+  if ((*widget)->img)
+    free((*widget)->img);
+
   free(*widget);
   *widget=NULL;
 }
@@ -31,12 +42,16 @@ struct widget_t *widget_create(char *name, uint16_t x, uint16_t y, uint16_t w, u
   widget = (struct widget_t *) calloc(1, sizeof(*widget));
   if (!widget)
     return NULL;
-  if (name)
-    widget->name=strdup(name);
+
+  widget->name=strdup(name);
   widget->x=x; 
   widget->y=y; 
   widget->w=w; 
   widget->h=h; 
+
+  widget->type=WIDGET_TYPE_NONE; 
+  widget->label=NULL;
+  widget->img=NULL;
   widget->user_data = NULL;
   widget->handler = NULL;
   widget->timer_msec = 0;
@@ -52,15 +67,20 @@ struct widget_t *widget_create_from_json(const char *json) {
   int type = 0;
   char *name = NULL;
   char *label = NULL;
-  char *icon = NULL;
+  char *img = NULL;
 
   if (json_scanf(json, strlen(json), "{name:%Q,x:%d,y:%d,w:%d,h:%d}", &name, &x, &y, &w, &h) != 5) {
     LOG(LL_ERROR, ("Incomplete JSON: require 'x', 'y', 'w', 'h' and 'name' fields"));
     return NULL;
   }
-  json_scanf(json, strlen(json), "{type:%d,label:%Q,icon:%Q}", &type, &label, &icon);
   widget = widget_create(name, x, y, w, h);
-  if (name) free(name);
+  free(name);
+
+  json_scanf(json, strlen(json), "{type:%d,label:%Q,img:%Q}", &type, &label, &img);
+  widget->type=type;
+  widget->label=label;
+  widget->img=img;
+
   return widget;
 }
 

@@ -1,0 +1,30 @@
+{
+  "name": "One",
+  "x": 20,
+  "y": 0,
+  "w": 320,
+  "h": 220,
+
+  "widgets": [
+    {
+      "name": "back",
+      "x": 16,
+      "y": 16,
+      "w": 48,
+      "h": 48,
+      "label": "Back",
+      "type": 2,
+      "screen": "screen_main.json"
+    },
+    {
+      "name": "one",
+      "x": 256,
+      "y": 16,
+      "w": 48,
+      "h": 48,
+      "label": "One",
+      "type": 1,
+      "img": "/flower.jpg"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "name": "Main",
+  "name": "Two",
   "x": 20,
   "y": 0,
   "w": 320,
@@ -7,14 +7,14 @@
 
   "widgets": [
     {
-      "name": "one",
+      "name": "back",
       "x": 16,
       "y": 16,
       "w": 48,
       "h": 48,
-      "label": "One",
+      "label": "Back",
       "type": 2,
-      "screen": "screen_one.json"
+      "screen": "screen_main.json"
     },
     {
       "name": "two",
@@ -25,15 +25,6 @@
       "label": "Two",
       "type": 2,
       "screen": "screen_two.json"
-    },
-    {
-      "name": "logo",
-      "x": 88,
-      "y": 48,
-      "w": 144,
-      "h": 144,
-      "type": 1,
-      "img": "/mongoose-os.jpg"
     }
   ]
 }
