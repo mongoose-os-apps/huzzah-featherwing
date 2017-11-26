@@ -2246,8 +2246,10 @@ int mgos_ili9341_png(int x, int y, char *fname)
 {
   upng_t* upng;
   const uint8_t *png_buf;
-  uint16_t i,j;
-  color_t pixel;
+  uint16_t j;
+  uint16_t width, height;
+  uint16_t write_width;
+  uint16_t write_lines;
 
   int ret = -1;
 
@@ -2266,19 +2268,27 @@ int mgos_ili9341_png(int x, int y, char *fname)
     goto exit;
   }
   // Do stuff with upng data
-  LOG(LL_INFO, ("%s: w=%d h=%d size=%d bpp=%d bitdepth=%d pixelsize=%d", fname, upng_get_width(upng), upng_get_height(upng), upng_get_size(upng), upng_get_bpp(upng), upng_get_bitdepth(upng), upng_get_pixelsize(upng)));
+  width = upng_get_width(upng);
+  height = upng_get_height(upng);
+  LOG(LL_DEBUG, ("%s: w=%d h=%d size=%d bpp=%d bitdepth=%d pixelsize=%d", fname, width, height, upng_get_size(upng), upng_get_bpp(upng), upng_get_bitdepth(upng), upng_get_pixelsize(upng)));
 
   png_buf = upng_get_buffer(upng);
-  disp_select();
-  for(j=0; j<upng_get_height(upng); j++) {
-    for(i=0; i<upng_get_width(upng); i++) {
-      pixel.r = *png_buf++;
-      pixel.g = *png_buf++;
-      pixel.b = *png_buf++;
-      mgos_ili9341_drawPixel(i, j, pixel, 0);
-    }
+
+  LOG(LL_DEBUG, ("dispwin (%d,%d) - (%d,%d)", dispWin.x1, dispWin.y1, dispWin.x2, dispWin.y2));
+  // Ensure we fit in the dispWin.
+  write_lines = height;
+  if (write_lines > (dispWin.y2-dispWin.y1-y)) write_lines = dispWin.y2-dispWin.y1-y;
+
+  write_width = width;
+  if (write_width > (dispWin.x2-dispWin.x1-x)) write_width = dispWin.x2-dispWin.x1-x;
+  LOG(LL_DEBUG, ("Start at (%d,%d), write_width=%d, write_lines=%d", dispWin.x1+x, dispWin.y1+y, write_width, write_lines));
+
+  for(j=0; j<write_lines; j++) {
+    disp_select();
+    send_data(x+dispWin.x1, y+j+dispWin.y1, x+dispWin.x1+write_width, y+j+dispWin.y1, write_width, (color_t *)png_buf);
+    disp_deselect();
+    png_buf+=width*3;
   }
-  disp_deselect();
   
 
 exit:
