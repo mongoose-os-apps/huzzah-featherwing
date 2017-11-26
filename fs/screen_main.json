@@ -23,12 +23,21 @@
     },
     {
       "name": "logo",
-      "x": 96,
-      "y": 61,
+      "x": 32,
+      "y": 110,
       "w": 128,
       "h": 98,
       "type": 1,
       "img": "/mongoose-os.png"
+    },
+    {
+      "name": "flowers",
+      "x": 182,
+      "y": 110,
+      "w": 106,
+      "h": 98,
+      "type": 1,
+      "img": "/flowers.png"
     }
   ]
 }

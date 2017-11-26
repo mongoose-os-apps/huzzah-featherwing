@@ -26,10 +26,10 @@ void widget_default_ev(int ev, struct widget_t *w, void *ev_data) {
     case EV_WIDGET_CREATE:
     case EV_WIDGET_DRAW:
     case EV_WIDGET_REDRAW:
-      widget_default_draw(w);
-      break;
     case EV_WIDGET_TIMER:
     case EV_WIDGET_TOUCH_UP:
+      widget_default_draw(w);
+      break;
     case EV_WIDGET_TOUCH_DOWN:
     case EV_WIDGET_DESTROY:
     default: // EV_WIDGET_NONE
