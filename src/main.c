@@ -53,19 +53,26 @@ void tft_demo(void)
 //  mgos_ili9341_jpg_image(200, 150, 2, "flower.jpg", NULL, 0);
 
   screen = screen_create_from_file("fs/screen_main.json");
-  w = widget_create("name", 0, 0, 198, 20, 0, widget_name_ev, NULL);
+  w = widget_create("name", 0, 0, 198, 20);
+  widget_set_handler(w, widget_name_ev, NULL);
   screen_widget_add(screen, w);
 
-  w = widget_create("network", 198, 0, 22, 20, 0, widget_network_ev, NULL);
+  w = widget_create("network", 198, 0, 22, 20);
+  widget_set_handler(w, widget_network_ev, NULL);
   screen_widget_add(screen, w);
 
-  w = widget_create("wifi", 220, 0, 20, 20, 5000, widget_wifi_ev, NULL);
+  w = widget_create("wifi", 220, 0, 20, 20);
+  widget_set_handler(w, widget_wifi_ev, NULL);
+  widget_set_timer(w, 5000);
   screen_widget_add(screen, w);
 
-  w = widget_create("time", 240, 0, 80, 20, 1000, widget_time_ev, NULL);
+  w = widget_create("time", 240, 0, 80, 20);
+  widget_set_handler(w, widget_time_ev, NULL);
+  widget_set_timer(w, 1000);
   screen_widget_add(screen, w);
 
-  w = widget_create("topbar", 0, 21, 320, 2, 0, widget_topbar_ev, NULL);
+  w = widget_create("topbar", 0, 21, 320, 2);
+  widget_set_handler(w, widget_topbar_ev, NULL);
   screen_widget_add(screen, w);
 }
 

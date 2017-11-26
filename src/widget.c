@@ -25,7 +25,7 @@ void widget_destroy(struct widget_t **widget) {
   *widget=NULL;
 }
 
-struct widget_t *widget_create(char *name, uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t timer_msec, widget_event_fn handler, void *user_data) {
+struct widget_t *widget_create(char *name, uint16_t x, uint16_t y, uint16_t w, uint16_t h) {
   struct widget_t *widget;
 
   widget = (struct widget_t *) calloc(1, sizeof(*widget));
@@ -37,10 +37,10 @@ struct widget_t *widget_create(char *name, uint16_t x, uint16_t y, uint16_t w, u
   widget->y=y; 
   widget->w=w; 
   widget->h=h; 
-  widget_set_handler(widget, handler, user_data);
-  widget_set_timer(widget, timer_msec);
-  if (handler)
-    handler(EV_WIDGET_CREATE, widget, NULL);
+  widget->user_data = NULL;
+  widget->handler = NULL;
+  widget->timer_msec = 0;
+  widget->_timer_id = 0;
 
   return widget;
 }
@@ -58,7 +58,7 @@ struct widget_t *widget_create_from_json(const char *json) {
     return NULL;
   }
   json_scanf(json, strlen(json), "{type:%d,label:%Q,icon:%Q}", &type, &label, &icon);
-  widget = widget_create(name, x, y, w, h, 0, NULL, NULL);
+  widget = widget_create(name, x, y, w, h);
   if (name) free(name);
   return widget;
 }
