@@ -1,5 +1,6 @@
 #include "mgos.h"
 #include "mgos_adc.h"
+#include "mgos_config.h"
 #include "tft.h"
 #include "mongoose-touch.h"
 #include "mgos_prometheus_metrics.h"
@@ -8,11 +9,15 @@
 #define WIDGET_BATTERY_ADC_PIN 35
 
 // Returns millivolts - Huzzah32 has a 1:1 voltage divider on I35 (A13)
-// so it returns half of the battery voltage. LiPo's are full at 4200mV
-// and critically empty at 3000mV.
+// so it returns half of the battery voltage. Calibrate the function by
+// measuring the ADC output at 4000mV.
 static int widget_battery_getvoltage() {
-  // Value is between 0..4096 which maps to 0..6600mV
-  return (6600*mgos_adc_read(WIDGET_BATTERY_ADC_PIN))/4096;
+  int val, mvolts;
+
+  val = mgos_adc_read(WIDGET_BATTERY_ADC_PIN);
+  mvolts=(4000*val)/mgos_sys_config_get_app_battery_calibration();
+  LOG(LL_DEBUG, ("ADC value %d, voltage %d mV", val, mvolts));
+  return mvolts;
 }
 
 static void widget_battery_render(struct widget_t *w, void *ev_data) {

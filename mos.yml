@@ -38,6 +38,8 @@ config_schema:
   - ["app.backlight_pin", 22]
   - ["app.inactivity_timeout", "i", {title: "Inactivity timeout in seconds"}]
   - ["app.inactivity_timeout", 10]
+  - ["app.battery_calibration", i, {title: "Battery ADC value at 4000mV"}]
+  - ["app.battery_calibration", 2360]
 
 
 # List of libraries used by this app, in order of initialisation
