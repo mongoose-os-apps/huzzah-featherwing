@@ -180,3 +180,18 @@ See the `unittest/Makefile` for a compilable target (on Linux at least). It
 runs tests against the code, ensuring that timers are set and removed,
 object creation and destruction are working, and getters/setters and other
 code operates as designed.
+
+## Acknowledgements
+
+Several pieces of code were borrowed from other authors. In particular, kudos
+go to the following fine individuals:
+
+*   *Espressif Systems* for the SPI driver
+*   LoBo (loboris@GitHub) for parts of the ILI9341 driver
+*   *Adafruit* for inspiration on the STMPE610 driver (which the author rewrote
+    to support interrupts).
+*   *Lode Vandevenne* and *Sean Middleditch* for the uPNG code to handle PNG
+    images.
+*   *Cesanta* for Mongoose OS, Mongoose, and the JSON `frozen` library.
+
+
