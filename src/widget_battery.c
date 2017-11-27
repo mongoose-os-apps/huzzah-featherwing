@@ -2,6 +2,7 @@
 #include "mgos_adc.h"
 #include "tft.h"
 #include "mongoose-touch.h"
+#include "mgos_prometheus_metrics.h"
 
 
 #define WIDGET_BATTERY_ADC_PIN 35
@@ -40,6 +41,15 @@ static void widget_battery_render(struct widget_t *w, void *ev_data) {
   (void) ev_data;
 }
 
+static void prometheus_battery_metrics_fn(struct mg_connection *nc, void *user_data) {
+  mgos_prometheus_metrics_printf(nc, GAUGE,
+    "battery_mvolts", "Battery voltage in mV",
+    "%d", widget_battery_getvoltage());
+
+  (void) user_data;
+}
+
+
 void widget_battery_ev(int ev, struct widget_t *w, void *ev_data) {
   if (!w)
     return;
@@ -48,6 +58,7 @@ void widget_battery_ev(int ev, struct widget_t *w, void *ev_data) {
     case EV_WIDGET_CREATE:
       LOG(LL_INFO, ("Monitoring LiPo voltage on gpio=%d", WIDGET_BATTERY_ADC_PIN));
       mgos_adc_enable(WIDGET_BATTERY_ADC_PIN);
+      mgos_prometheus_metrics_add_handler(prometheus_battery_metrics_fn, NULL);
     case EV_WIDGET_DRAW:
     case EV_WIDGET_REDRAW:
     case EV_WIDGET_TIMER:
