@@ -2,6 +2,7 @@
 #include <time.h>
 
 #include "mgos.h"
+#include "mgos_pwm.h"
 #include "tft.h"
 #include "stmpe610.h"
 #include "mongoose-touch.h"
@@ -21,6 +22,23 @@ static void touch_handler(struct mgos_stmpe610_event_data *ed) {
   x = map(ed->x, 0, 4095, 0, _width-1);
   y = map(ed->y, 0, 4095, 0, _height-1);
   LOG(LL_INFO, ("Touch %s at (%d,%d) pressure=%d, length=%d", ed->direction==TOUCH_UP?"UP":"DOWN", x, y, ed->z, ed->length));
+
+  // If the backlight is inactive, grab the TOUCH_DOWN and TOUCH_UP events.
+  // Do nothing on TOUCH_DOWN, but reactivate the backlight by calling
+  // backlight_keepalive() upon TOUCH_UP. This way, the first touch will
+  // wake up the UI, but not send events to widgets and things.
+  if (!backlight_active()) {
+    if (ed->direction==TOUCH_DOWN) {
+      LOG(LL_INFO, ("Ignoring touch event, backlight is inactive"));
+      return;
+    }
+    LOG(LL_INFO, ("Ignoring touch event, but waking up"));
+    backlight_keepalive();
+    return;
+  }
+
+  backlight_keepalive();
+
   widget = screen_widget_find_by_xy(screen, x, y);
 
   if (ed->direction==TOUCH_DOWN) {
@@ -80,6 +98,7 @@ void tft_demo(void)
 enum mgos_app_init_result mgos_app_init(void)
 {
   mgos_stmpe610_set_handler(touch_handler);
+  backlight_init();
 
   tft_demo();
 

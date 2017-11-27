@@ -3,6 +3,7 @@
 
 #include "widget.h"
 #include "screen.h"
+#include "backlight.h"
 
 void widget_time_ev(int ev, struct widget_t *w, void *ev_data);
 

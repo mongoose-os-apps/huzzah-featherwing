@@ -33,6 +33,10 @@ config_schema:
   - ["app", "o", {title: "APP settings"}]
   - ["app.hostname", "s", {title: "Device hostname"}]
   - ["app.hostname", "Mongoose Touch"]
+  - ["app.backlight_pin", "i", {title: "Backlight pin"}]
+  - ["app.backlight_pin", 22]
+  - ["app.inactivity_timeout", "i", {title: "Inactivity timeout in seconds"}]
+  - ["app.inactivity_timeout", 10]
 
 
 # List of libraries used by this app, in order of initialisation
@@ -43,6 +47,7 @@ libs:
   - origin: https://github.com/mongoose-os-libs/rpc-service-fs
   - origin: https://github.com/mongoose-os-libs/rpc-uart
   - origin: https://github.com/mongoose-os-libs/prometheus-metrics
+  - origin: https://github.com/mongoose-os-libs/pwm
   - origin: libs/lobo-spi
   - origin: libs/ili9341
   - origin: libs/stmpe610
