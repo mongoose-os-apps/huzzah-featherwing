@@ -23,6 +23,7 @@ filesystem:
   - fs
 
 config_schema:
+  - ["sys.esp32_adc_vref", 3300] # ADC Vref is 3.3V
   - ["wifi.ap.enable", false]
   - ["wifi.sta.enable", true]
   - ["wifi.sta.ssid", "dapches-iot"]
@@ -48,6 +49,7 @@ libs:
   - origin: https://github.com/mongoose-os-libs/rpc-uart
   - origin: https://github.com/mongoose-os-libs/prometheus-metrics
   - origin: https://github.com/mongoose-os-libs/pwm
+  - origin: https://github.com/mongoose-os-libs/adc
   - origin: libs/lobo-spi
   - origin: libs/ili9341
   - origin: libs/stmpe610
