@@ -32,7 +32,7 @@ static void touch_handler(struct mgos_stmpe610_event_data *ed) {
       LOG(LL_INFO, ("Ignoring touch event, backlight is inactive"));
       return;
     }
-    LOG(LL_INFO, ("Ignoring touch event, but waking up"));
+    LOG(LL_INFO, ("Ignoring touch event, but setting backlight on"));
     backlight_keepalive();
     return;
   }
@@ -60,9 +60,6 @@ void tft_demo(void)
   mgos_stmpe610_set_rotation(mgos_sys_config_get_tft_orientation());
   mgos_ili9341_setGammaCurve(DEFAULT_GAMMA_CURVE);
   mgos_ili9341_setFont(DEFAULT_FONT, NULL);
-
-//  mgos_ili9341_jpg_image(CENTER, CENTER, 1, "mongoose-os.jpg", NULL, 0);
-//  mgos_ili9341_jpg_image(200, 150, 2, "flower.jpg", NULL, 0);
 
   screen = screen_create_from_file("/screen_main.json", widget_default_ev, NULL);
   if (!screen) {
@@ -102,8 +99,9 @@ void tft_demo(void)
 
 enum mgos_app_init_result mgos_app_init(void)
 {
-  mgos_stmpe610_set_handler(touch_handler);
   backlight_init();
+
+  mgos_stmpe610_set_handler(touch_handler);
 
   tft_demo();
 
