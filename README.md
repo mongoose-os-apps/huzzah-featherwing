@@ -60,7 +60,7 @@ connect them to the Huzzah32:
 
 Here's a picture to help you find your bearings:
 
-![Soldering image](docs/Mongoose-Touch_v2.png)
+![Soldering image](docs/Mongoose-Touch_2.png)
 
 
 ### General Design
