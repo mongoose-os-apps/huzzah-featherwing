@@ -7,10 +7,9 @@
 #include "mgos_timers.h"
 
 #define BACKLIGHT_PWM_HZ 10000
-#define BACKLIGHT_STEP_USEC 10000 // 10ms per step.
+#define BACKLIGHT_STEP_USEC 20000 // 20ms per step.
 
 void backlight_init(void);
-void backlight_set(float new_duty, int fader_msec);
 void backlight_keepalive();
 bool backlight_active();
 
