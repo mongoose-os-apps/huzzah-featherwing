@@ -8,10 +8,7 @@ build around two popular pieces of hardware, both available from Adafruit:
 *   [Huzzah32 ESP32 Feather](https://learn.adafruit.com/adafruit-huzzah32-esp32-feather/)
 *   [2.4" TFT/TouchScreen Featherwing](https://learn.adafruit.com/adafruit-2-4-tft-touch-screen-featherwing/)
 
-<!--
-[![Video Intro](https://img.youtube.com/vi/VID/0.jpg)](https://www.youtube.com/watch?v=VID)
--->
-
+[![Video Intro](https://img.youtube.com/vi/d9CZ4VMgTGI/0.jpg)](https://www.youtube.com/watch?v=d9CZ4VMgTGI)
 
 ## Hardware: Moving Parts
 
