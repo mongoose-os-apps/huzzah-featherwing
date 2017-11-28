@@ -23,7 +23,7 @@ static int widget_battery_getvoltage() {
 static void widget_battery_render(struct widget_t *w, void *ev_data) {
   int mvolts;
   color_t color;
-  uint8_t h;
+  int h;
 
   if (!w)
     return;
@@ -32,15 +32,17 @@ static void widget_battery_render(struct widget_t *w, void *ev_data) {
 
   mvolts=widget_battery_getvoltage();
   color=ILI9341_RED;
-  if (mvolts<3400) mvolts=3400;
   if (mvolts>3600) color=ILI9341_YELLOW;
   if (mvolts>3900) color=ILI9341_GREEN;
-  if (mvolts>4100) mvolts=4100;
-  h=12-12*(mvolts-3400)/(4100-3400);
 
-  mgos_ili9341_fillRect(5, 2, 3, 2, color);
+  h=12-12*(mvolts-3400)/(4100-3400);
+  if (h<0) h=0;
+  if (h>12) h=12;
+
+  mgos_ili9341_drawFastHLine(5, 2, 3, color);
   mgos_ili9341_fillRect(2, 4, 9, 14, color);
-  mgos_ili9341_fillRect(3, 5, 7, h, ILI9341_BLACK);
+  if (h>0)
+    mgos_ili9341_fillRect(3, 5, 7, h, ILI9341_BLACK);
   mgos_ili9341_resetclipwin();
 
   (void) ev_data;
