@@ -222,6 +222,9 @@ void mgos_stmpe610_set_rotation(enum mgos_stmpe610_rotation_t rotation) {
   s_rotation = rotation;
 }
 
+bool mgos_stmpe610_is_touching() {
+  return s_last_touch.direction == TOUCH_DOWN;
+}
 
 bool mgos_stmpe610_init(void) {
   esp_err_t ret;
@@ -287,5 +290,12 @@ bool mgos_stmpe610_init(void) {
   mgos_gpio_set_pull(mgos_sys_config_get_stmpe610_irq_pin(), MGOS_GPIO_PULL_UP);
   mgos_gpio_set_int_handler(mgos_sys_config_get_stmpe610_irq_pin(), MGOS_GPIO_INT_EDGE_NEG, stmpe610_irq, NULL);
   mgos_gpio_enable_int(mgos_sys_config_get_stmpe610_irq_pin());
+
+  // Initialize the last touch to TOUCH_UP
+  s_last_touch.direction=TOUCH_UP;
+  s_last_touch.x=0;
+  s_last_touch.y=0;
+  s_last_touch.z=0;
+  s_last_touch.length=0;
   return true;
 }
