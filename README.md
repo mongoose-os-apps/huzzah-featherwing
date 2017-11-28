@@ -169,18 +169,17 @@ added time `widget`.
 The Featherwing has a PWM based backlight. The implementaion in
 `src/backlight.c` shows a way to dim the screen when it is not in use.
 The way this works, is by means of `backlight_keepalive()` which sets the
-backlight on, and installs a timer (by default for 10 seconds). Each time
-the user touches the screen, the timer is re-initialized. If the user does
-not touch the screen, the timer invokes the callback `backlight_keepalive_cb()`
-which will set turn the screen off: it will install a target duty cycle and
-time to get to that target (usually 1000ms). Then it'll start a repeating
-a 10ms timer that dims the backlight until the target it reached, after
-which it deinstalls itself. See `backlight_fader_cb()` for details. Very slick!
+backlight on, and updates `backlight_last_keepalive`. A timer checks if
+the last keepalive call hasn't been too long ago, and if it was, it initiates
+a screen dimmer by setting a new target duty cycle and time to get to that
+target (usually 1000ms). Then it'll start a repeating a 20ms timer that dims
+the backlight until the target it reached, after which it deinstalls itself.
+See `backlight_fader_cb()` for details. Very slick!
 
 If the screen is off, `backlight_active()` will return false. The main
 `touch_handler()` (the one that gets interrupts from the STMPE610), will
 ignore the first `TOUCH_DOWN` and `TOUCH_UP` events in that case, but it
-will wake up the screen again by setting the backlight back on.
+will wake up the screen again by calling `backlight_keepalive().`
 
 ### Other tricks
 
