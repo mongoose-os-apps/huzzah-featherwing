@@ -1,4 +1,5 @@
 #include "backlight.h"
+#include "stmpe610.h"
 
 static float backlight_duty;
 static float backlight_target_duty;
@@ -57,6 +58,14 @@ static void backlight_set(float new_duty, int fader_msec) {
 }
 
 static void backlight_keepalive_cb(void *arg) {
+
+  // Extend the keepalive if the current state is TOUCH_DOWN
+  if (mgos_stmpe610_is_touching()) {
+    LOG(LL_DEBUG, ("SMTPE610 is touching, extending keepalive"));
+    backlight_keepalive();
+    return;
+  }
+
   // We trigger a fade if:
   // - current time is more than 3sec since our last keepalive
   // - backlight_duty>0: the screen is on
