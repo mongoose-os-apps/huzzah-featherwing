@@ -8,6 +8,11 @@ build around two popular pieces of hardware, both available from Adafruit:
 *   [Huzzah32 ESP32 Feather](https://learn.adafruit.com/adafruit-huzzah32-esp32-feather/)
 *   [2.4" TFT/TouchScreen Featherwing](https://learn.adafruit.com/adafruit-2-4-tft-touch-screen-featherwing/)
 
+<!--
+[![Video Intro](https://img.youtube.com/vi/VID/0.jpg)](https://www.youtube.com/watch?v=VID)
+-->
+
+
 ## Hardware: Moving Parts
 
 The TFT Featherwing features three components:
@@ -50,8 +55,13 @@ Peculiarities of the hardware setup:
 The `LITE` and `IRQ` pads on the TFT Featherwing have to be soldered to
 connect them to the Huzzah32:
 
-*   Solder the `IRQ` pad to pin 23.
-*   Solder the `LITE` pad to pin 22.
+*   Solder the `IRQ` pad to pin 23, the top left pad.
+*   Solder the `LITE` pad to pin 22, the second from the top left pad.
+
+Here's a picture to help you find your bearings:
+
+![Soldering image](docs/Mongoose-Touch_v2.png)
+
 
 ### General Design
 
