@@ -53,17 +53,17 @@ To showcase the idiomatic use of Mongoose OS, we will to do the following:
     ESP32 SPI driver and checked it in to `libs/lobo-spi/`. There's an
     implementation of STMPE610 driver in `libs/stmpe610/`, and finally, there's
     an implementation of ILI9341 in `libs/ili9341/`.
-1.  Install a PWM driver for the backlight.
 1.  Install an interrupt handler for the touch screen events.
+1.  Install a PWM driver for the backlight.
 1.  Install an ADC reader on GPIO35.
 1.  Create a UI container which can display `widgets`, both provided in C code,
     such as `src/widget_*.c`, but also provided by users in a JSON
     configuration.
+1.  Store the JSON and image data on the provided `SPIFFS` filesystem in `fs/`.
 1.  Interact with the user by performing actions on the `widgets`.
 1.  Report on system statistics using Prometheus.
 
 ## User Interface
-
 
 ### Anatomy of the UI
 
@@ -104,6 +104,15 @@ which redraw the arrows in yellow, setting a 100ms timer that will redraw the
 arrows in grey again.
 
 Users can call the send and recv functions to show network activity.
+
+##### Name widget
+
+This `widget` exposes `widget_name_ev()` which prints a string based on some
+local state it keeps. Its event handler implements `TOUCH_DOWN` and `TOUCH_UP`
+Which cycles between the `app.hostname` system configuration string (see
+`mos.yml` for its defintion), the IP address, the associated WiFi SSID, and
+the `screen` name (see below).
+
 
 #### Screens
 
@@ -150,8 +159,8 @@ the user touches the screen, the timer is re-initialized. If the user does
 not touch the screen, the timer invokes the callback `backlight_keepalive_cb()`
 which will set turn the screen off: it will install a target duty cycle and
 time to get to that target (usually 1000ms). Then it'll start a repeating
-timer a 10ms that dims the backlight until the target it reached, after
-which it deinstalls itself. See `backlight_fader_cb()` for details.
+a 10ms timer that dims the backlight until the target it reached, after
+which it deinstalls itself. See `backlight_fader_cb()` for details. Very slick!
 
 If the screen is off, `backlight_active()` will return false. The main
 `touch_handler()` (the one that gets interrupts from the STMPE610), will
@@ -166,7 +175,7 @@ with several Mongoose OS specific metrics (such as memory, build platform,
 MQTT statistics, etc), but also allows users to add handlers of their own.
 
 For example, the battery `widget` installs a callback adding one such metric
-(the measures battery voltage).
+(the measured battery voltage).
 
 ## Unit Tests
 
@@ -186,12 +195,12 @@ code operates as designed.
 Several pieces of code were borrowed from other authors. In particular, kudos
 go to the following fine individuals:
 
-*   *Espressif Systems* for the SPI driver
-*   LoBo (loboris@GitHub) for parts of the ILI9341 driver
-*   *Adafruit* for inspiration on the STMPE610 driver (which the author rewrote
-    to support interrupts).
-*   *Lode Vandevenne* and *Sean Middleditch* for the uPNG code to handle PNG
-    images.
-*   *Cesanta* for Mongoose OS, Mongoose, and the JSON `frozen` library.
+*   ***Espressif Systems*** for the SPI driver
+*   ***LoBo*** (loboris@GitHub) for parts of the ILI9341 driver
+*   ***Adafruit*** for inspiration on the STMPE610 driver (which the author
+    rewrote to support interrupts).
+*   ***Lode Vandevenne*** and ***Sean Middleditch*** for the uPNG code to
+    handle PNG images.
+*   ***Cesanta*** for Mongoose OS, Mongoose, and the JSON `frozen` library.
 
 
