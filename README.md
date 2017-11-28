@@ -23,7 +23,7 @@ a great platform to showcase the power of Mongoose OS.
 ### Hardware: Observations
 
 The Huzzah32 uses its SPI bus to communicate with the touch sensor and the
-TFT screen. It's `MOSI`, `MISO` and `SCLK` pins are shared with the other
+TFT screen. Its `MOSI`, `MISO` and `SCLK` pins are shared with the other
 devices, and it selects which slave device to communicate with by means of
 three `CS` pins. 
 
@@ -44,7 +44,15 @@ Peculiarities of the hardware setup:
     is connected to USB. Adafruit have helpfully connected the battery
     output to an ADC pin (A13 / GPIO35) using a 1:1 voltage divider (so a
     full LiPo battery at 4.2V will read out at 2.1V on the ADC channel.
-    
+
+#### Soldering Requirements
+
+The `LITE` and `IRQ` pads on the TFT Featherwing have to be soldered to
+connect them to the Huzzah32:
+
+*   Solder the `IRQ` pad to pin 23.
+*   Solder the `LITE` pad to pin 22.
+
 ### General Design
 
 To showcase the idiomatic use of Mongoose OS, we will to do the following:
