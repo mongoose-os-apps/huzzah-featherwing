@@ -4,6 +4,8 @@
 #include "mgos.h"
 #include "mgos_pwm.h"
 #include "mongoose-touch.h"
+#include "fonts/FreeSerifBold9pt7b.h"
+#include "fonts/FreeMonoBold9pt7b.h"
 
 struct screen_t *screen = NULL;
 

@@ -1,18 +1,37 @@
 #include "mgos.h"
 #include "mongoose-touch.h"
 
+extern GFXfont FreeSerifBold9pt7b;
+
 static void widget_default_draw(struct widget_t *w, uint16_t color) {
   if (!w)
     return;
   mgos_ili9341_set_window(w->x, w->y, w->x+w->w-1, w->y+w->h-1);
 
   mgos_ili9341_set_fgcolor565(color);
-  mgos_ili9341_drawRoundRect(0, 0, w->w, w->h, 8);
+ 
+  if (w->img) {
+    mgos_ili9341_set_fgcolor565(ILI9341_BLUE);
+    mgos_ili9341_drawRoundRect(0, 0, w->w, w->h, 16);
+  } else if (w->label) {
+    int16_t text_width, text_height;
+    uint16_t x, y;
 
-/*
-  if (w->img)
-    mgos_ili9341_png(0, 0, w->img);
-*/
+    mgos_ili9341_drawRoundRect(0, 0, w->w, w->h, 8);
+    mgos_ili9341_set_font(&FreeSerifBold9pt7b);
+    text_width=mgos_ili9341_getStringWidth(w->label);
+    text_height=mgos_ili9341_getStringHeight(w->label);
+    if (text_width>w->w)
+      x=0;
+    else
+      x=(w->w-text_width)/2;
+    if (text_height>w->h)
+      y=0;
+    else
+      y=(w->h-text_height)/2;
+    mgos_ili9341_print(x, y, w->label);
+  }
+
 }
 
 void widget_default_ev(int ev, struct widget_t *w, void *ev_data) {

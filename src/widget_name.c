@@ -3,7 +3,6 @@
 #include "mgos_wifi.h"
 #include "mgos_net.h"
 #include "mongoose-touch.h"
-#include "fonts/FreeMonoBold9pt7b.h"
 
 #define WIDGET_NAME_NAME    0
 #define WIDGET_NAME_IPADDR  1
@@ -13,6 +12,7 @@
 
 static uint8_t what = WIDGET_NAME_NAME;
 extern struct screen_t *screen;
+extern GFXfont FreeMonoBold9pt7b;
 
 static void widget_name_render(struct widget_t *w, void *ev_data) {
   char namestring[21];

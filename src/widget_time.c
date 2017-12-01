@@ -1,6 +1,7 @@
 #include "mgos.h"
 #include "mongoose-touch.h"
-#include "fonts/FreeSerifBold9pt7b.h"
+
+extern GFXfont FreeSerifBold9pt7b;
 
 static void widget_time_render(struct widget_t *w, void *ev_data) {
   char tmp_buff[32];
