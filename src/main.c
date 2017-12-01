@@ -4,7 +4,6 @@
 #include "mgos.h"
 #include "mgos_pwm.h"
 #include "mongoose-touch.h"
-#include "fonts/FreeMonoBold9pt7b.h"
 
 struct screen_t *screen = NULL;
 
@@ -52,7 +51,6 @@ void tft_demo(void)
   mgos_stmpe610_set_handler(touch_handler);
   mgos_stmpe610_set_dimensions(320, 240);
 
-  mgos_ili9341_set_font(&FreeMonoBold9pt7b);
   mgos_ili9341_set_fgcolor(0,0,0);
   mgos_ili9341_fillScreen();
 

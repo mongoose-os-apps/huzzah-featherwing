@@ -24,7 +24,7 @@ static uint8_t widget_wifi_signal() {
 static void widget_wifi_render(struct widget_t *w, void *ev_data) {
   uint8_t x, signal;
 
-  mgos_ili9341_set_window(w->x, w->y, w->x+w->w, w->y+w->h);
+  mgos_ili9341_set_window(w->x, w->y, w->x+w->w-1, w->y+w->h-1);
 
   mgos_ili9341_set_fgcolor565(ILI9341_DARKGREY);
   mgos_ili9341_fillTriangle(2, 18, 18, 18, 18, 2);

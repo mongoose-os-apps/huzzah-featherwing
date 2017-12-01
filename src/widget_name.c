@@ -3,6 +3,7 @@
 #include "mgos_wifi.h"
 #include "mgos_net.h"
 #include "mongoose-touch.h"
+#include "fonts/FreeMonoBold9pt7b.h"
 
 #define WIDGET_NAME_NAME    0
 #define WIDGET_NAME_IPADDR  1
@@ -16,6 +17,7 @@ extern struct screen_t *screen;
 static void widget_name_render(struct widget_t *w, void *ev_data) {
   char namestring[21];
   char *p = NULL;
+  int16_t text_height;
 
 
   if (!w)
@@ -54,11 +56,14 @@ static void widget_name_render(struct widget_t *w, void *ev_data) {
       sprintf(namestring, "%-20s",mgos_sys_config_get_app_hostname());
   }
 
-  mgos_ili9341_set_window(w->x, w->y, w->x+w->w, w->y+w->h);
+  mgos_ili9341_set_window(w->x, w->y, w->x+w->w-1, w->y+w->h-1);
   mgos_ili9341_set_fgcolor565(ILI9341_BLACK);
   mgos_ili9341_fillRect(0, 0, w->w, w->h);
+
+  mgos_ili9341_set_font(&FreeMonoBold9pt7b);
   mgos_ili9341_set_fgcolor565(ILI9341_GREEN);
-  mgos_ili9341_print(2, 4, namestring);
+  text_height=mgos_ili9341_getStringHeight(namestring);
+  mgos_ili9341_print(2, text_height>w->h?0:(w->h-text_height)/2, namestring);
 
   (void) ev_data;
 }

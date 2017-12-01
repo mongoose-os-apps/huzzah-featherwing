@@ -7,7 +7,7 @@ static mgos_timer_id recv_timer = 0;
 static struct widget_t *widget_network = NULL;
 
 static void widget_network_render(struct widget_t *w, void *ev_data) {
-  mgos_ili9341_set_window(w->x, w->y, w->x+w->w, w->y+w->h);
+  mgos_ili9341_set_window(w->x, w->y, w->x+w->w-1, w->y+w->h-1);
   // Send
   mgos_ili9341_set_fgcolor565(send_timer?ILI9341_YELLOW:ILI9341_DARKGREY);
   mgos_ili9341_fillTriangle(2, 10, 10, 10, 6, 2);

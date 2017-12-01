@@ -27,7 +27,7 @@ static void widget_battery_render(struct widget_t *w, void *ev_data) {
   if (!w)
     return;
 
-  mgos_ili9341_set_window(w->x, w->y, w->x+w->w, w->y+w->h);
+  mgos_ili9341_set_window(w->x, w->y, w->x+w->w-1, w->y+w->h-1);
 
   mvolts=widget_battery_getvoltage();
   color=ILI9341_RED;

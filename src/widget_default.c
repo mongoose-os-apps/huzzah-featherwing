@@ -4,7 +4,7 @@
 static void widget_default_draw(struct widget_t *w, uint16_t color) {
   if (!w)
     return;
-  mgos_ili9341_set_window(w->x, w->y, w->x+w->w, w->y+w->h);
+  mgos_ili9341_set_window(w->x, w->y, w->x+w->w-1, w->y+w->h-1);
 
   mgos_ili9341_set_fgcolor565(color);
   mgos_ili9341_drawRoundRect(0, 0, w->w, w->h, 8);
