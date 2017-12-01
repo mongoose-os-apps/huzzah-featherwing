@@ -24,11 +24,13 @@ static void widget_network_render(struct widget_t *w, void *ev_data) {
 static void widget_network_send_clear(void *arg) {
   send_timer=0;
   widget_network_ev(EV_WIDGET_REDRAW, widget_network, NULL);
+  (void) arg;
 }
 
 static void widget_network_recv_clear(void *arg) {
   recv_timer=0;
   widget_network_ev(EV_WIDGET_REDRAW, widget_network, NULL);
+  (void) arg;
 }
 
 void widget_network_send() {

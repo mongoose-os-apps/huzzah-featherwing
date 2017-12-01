@@ -1,7 +1,8 @@
-platform: esp32
 author: Pim van Pelt <pim@ipng.nl>
 description: A Mongoose-OS Huzzah32 Featherwing
 version: 1.0
+platform: esp32
+platfors: [ esp8266, esp32 ]
 
 libs_version: ${mos.version}
 modules_version: ${mos.version}
@@ -24,7 +25,7 @@ filesystem:
 
 config_schema:
 #  - ["debug.level", 4]
-  - ["sys.esp32_adc_vref", 3300] # ADC Vref is 3.3V
+#  - ["spi.debug", true]
   - ["wifi.ap.enable", false]
   - ["wifi.sta.enable", true]
   - ["wifi.sta.ssid", "dapches-iot"]
@@ -42,17 +43,28 @@ config_schema:
   - ["app.battery_calibration", i, {title: "Battery ADC value at 4000mV"}]
   - ["app.battery_calibration", 2360]
   - ["spi.enable", true]
-#  - ["spi.debug", true]
-  - ["spi.mosi_gpio", 18]
-  - ["spi.miso_gpio", 19]
-  - ["spi.sclk_gpio", 5]
-  - ["spi.cs0_gpio", 32]
   - ["spi.cs1_gpio", -1]
   - ["spi.cs2_gpio", -1]
-  - ["ili9341.cs_pin", 15]
-  - ["ili9341.dc_pin", 33]
   - ["stmpe610.cs_index", 0]
-  - ["stmpe610.irq_pin", 23]
+
+conds:
+  - when: mos.platform == "esp32"
+    apply:
+      build_vars:
+        MGOS_PLATFORM_ESP32: 1
+      config_schema:
+        - ["sys.esp32_adc_vref", 3300] # ADC Vref is 3.3V
+        - ["spi.mosi_gpio", 18]
+        - ["spi.miso_gpio", 19]
+        - ["spi.sclk_gpio", 5]
+        - ["spi.cs0_gpio", 32]
+        - ["ili9341.cs_pin", 15]
+        - ["ili9341.dc_pin", 33]
+        - ["stmpe610.irq_pin", 23]
+  - when: mos.platform == "esp8266"
+    apply:
+      build_vars:
+        MGOS_PLATFORM_ESP8266: 1
 
 
 

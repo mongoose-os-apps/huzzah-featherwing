@@ -58,4 +58,5 @@ void widget_default_ev(int ev, struct widget_t *w, void *ev_data) {
     default: // EV_WIDGET_NONE
       break;
   }
+  (void) ev_data;
 }

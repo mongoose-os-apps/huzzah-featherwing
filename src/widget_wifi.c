@@ -1,6 +1,8 @@
 #include "mgos.h"
 #include "mongoose-touch.h"
+#ifdef MGOS_PLATFORM_ESP32
 #include <esp_wifi.h>
+#endif
 
 static long map(long x, long in_min, long in_max, long out_min, long out_max)
 {
@@ -9,6 +11,7 @@ static long map(long x, long in_min, long in_max, long out_min, long out_max)
 
 // Returns a value between 0 and 100%
 static uint8_t widget_wifi_signal() {
+#ifdef MGOS_PLATFORM_ESP32
   wifi_ap_record_t info;
 
   if(0 != esp_wifi_sta_get_ap_info(&info))
@@ -19,6 +22,8 @@ static uint8_t widget_wifi_signal() {
   if (info.rssi >= -50)
     return 100;
   return 2 * (info.rssi + 100);
+#endif
+  return 100;
 }
 
 static void widget_wifi_render(struct widget_t *w, void *ev_data) {
