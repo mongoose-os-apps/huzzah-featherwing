@@ -64,10 +64,10 @@ Here's a picture to help you find your bearings:
 
 To showcase the idiomatic use of Mongoose OS, we will to do the following:
 
-1.  Write drivers for the ILI9341 and STMPE610 chips. We've taken the native
-    ESP32 SPI driver and checked it in to `libs/lobo-spi/`. There's an
-    implementation of STMPE610 driver in `libs/stmpe610/`, and finally, there's
-    an implementation of ILI9341 in `libs/ili9341/`.
+1.  Write drivers for the [ILI9341](https://github.com/pimvanpelt/ili9341-spi)
+    and [STMPE610](https://github.com/pimvanpelt/stmpe610-spi) chips. We've taken
+    the native Mongoose OS SPI driver as a base -- this way, this code will run
+    on _any hardware target_ that Mongoose OS supports.
 1.  Install an interrupt handler for the touch screen events.
 1.  Install a PWM driver for the backlight.
 1.  Install an ADC reader on GPIO35.
@@ -210,9 +210,10 @@ Several pieces of code were borrowed from other authors. In particular, kudos
 go to the following fine individuals:
 
 *   ***Espressif Systems*** for the SPI driver
-*   ***LoBo*** (loboris@GitHub) for parts of the ILI9341 driver
+*   ***LoBo*** (loboris@GitHub) for a reference ILI9341 driver for ESP32 (which
+    the author rewrote to use native Mongoose OS SPI).
 *   ***Adafruit*** for inspiration on the STMPE610 driver (which the author
-    rewrote to support interrupts).
+    rewrote to support interrupts), as well as the fonts.
 *   ***Lode Vandevenne*** and ***Sean Middleditch*** for the uPNG code to
     handle PNG images.
 *   ***Cesanta*** for Mongoose OS, Mongoose, and the JSON `frozen` library.
