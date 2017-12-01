@@ -2,7 +2,7 @@ author: Pim van Pelt <pim@ipng.nl>
 description: A Mongoose-OS Huzzah32 Featherwing
 version: 1.0
 platform: esp32
-platfors: [ esp8266, esp32 ]
+platforms: [ esp8266, esp32 ]
 
 libs_version: ${mos.version}
 modules_version: ${mos.version}
