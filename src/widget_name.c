@@ -2,7 +2,6 @@
 #include "mgos_config.h"
 #include "mgos_wifi.h"
 #include "mgos_net.h"
-#include "tft.h"
 #include "mongoose-touch.h"
 
 #define WIDGET_NAME_NAME    0
@@ -55,11 +54,11 @@ static void widget_name_render(struct widget_t *w, void *ev_data) {
       sprintf(namestring, "%-20s",mgos_sys_config_get_app_hostname());
   }
 
-  mgos_ili9341_setclipwin(w->x, w->y, w->x+w->w, w->y+w->h);
-  mgos_ili9341_fillRect(0, 0, w->w, w->h, ILI9341_BLACK);
-  mgos_ili9341_set_fg(&ILI9341_GREEN);
-  mgos_ili9341_print(namestring, 2, 4);
-  mgos_ili9341_resetclipwin();
+  mgos_ili9341_set_window(w->x, w->y, w->x+w->w, w->y+w->h);
+  mgos_ili9341_set_fgcolor565(ILI9341_BLACK);
+  mgos_ili9341_fillRect(0, 0, w->w, w->h);
+  mgos_ili9341_set_fgcolor565(ILI9341_GREEN);
+  mgos_ili9341_print(2, 4, namestring);
 
   (void) ev_data;
 }

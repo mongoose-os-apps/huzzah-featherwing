@@ -1,5 +1,4 @@
 #include "mgos.h"
-#include "tft.h"
 #include "mongoose-touch.h"
 
 static void widget_time_render(struct widget_t *w, void *ev_data) {
@@ -11,11 +10,10 @@ static void widget_time_render(struct widget_t *w, void *ev_data) {
   if (!w)
     return;
 
-  mgos_ili9341_set_fg(&ILI9341_YELLOW);
-  sprintf(tmp_buff, " %02d:%02d:%02d", tm_info->tm_hour, tm_info->tm_min, tm_info->tm_sec);
-  mgos_ili9341_setclipwin(w->x, w->y, w->x+w->w, w->y+w->h);
-  mgos_ili9341_print(tmp_buff, 2, 4);
-  mgos_ili9341_resetclipwin();
+  mgos_ili9341_set_fgcolor565(ILI9341_YELLOW);
+  sprintf(tmp_buff, " %02d:%02d", tm_info->tm_hour, tm_info->tm_min);
+  mgos_ili9341_set_window(w->x, w->y, w->x+w->w, w->y+w->h);
+  mgos_ili9341_print(2, 4, tmp_buff);
 
   (void) ev_data;
 }

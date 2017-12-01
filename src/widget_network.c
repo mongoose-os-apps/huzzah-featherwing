@@ -1,6 +1,5 @@
 #include "mgos.h"
 #include "mgos_timers.h"
-#include "tft.h"
 #include "mongoose-touch.h"
 
 static mgos_timer_id send_timer = 0;
@@ -8,15 +7,16 @@ static mgos_timer_id recv_timer = 0;
 static struct widget_t *widget_network = NULL;
 
 static void widget_network_render(struct widget_t *w, void *ev_data) {
-  mgos_ili9341_setclipwin(w->x, w->y, w->x+w->w, w->y+w->h);
+  mgos_ili9341_set_window(w->x, w->y, w->x+w->w, w->y+w->h);
   // Send
-  mgos_ili9341_fillTriangle(2, 10, 10, 10, 6, 2, send_timer?ILI9341_YELLOW:ILI9341_DARKGREY);
-  mgos_ili9341_fillRect(5, 10, 3, 8, send_timer?ILI9341_YELLOW:ILI9341_DARKGREY);
+  mgos_ili9341_set_fgcolor565(send_timer?ILI9341_YELLOW:ILI9341_DARKGREY);
+  mgos_ili9341_fillTriangle(2, 10, 10, 10, 6, 2);
+  mgos_ili9341_fillRect(5, 10, 3, 8);
 
   // Recv
-  mgos_ili9341_fillTriangle(12, 10, 20, 10, 16, 18, recv_timer?ILI9341_YELLOW:ILI9341_DARKGREY);
-  mgos_ili9341_fillRect(15, 2, 3, 8, recv_timer?ILI9341_YELLOW:ILI9341_DARKGREY);
-  mgos_ili9341_resetclipwin();
+  mgos_ili9341_set_fgcolor565(recv_timer?ILI9341_YELLOW:ILI9341_DARKGREY);
+  mgos_ili9341_fillTriangle(12, 10, 20, 10, 16, 18);
+  mgos_ili9341_fillRect(15, 2, 3, 8);
 
   (void) ev_data;
 }

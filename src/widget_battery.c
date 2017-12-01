@@ -1,7 +1,6 @@
 #include "mgos.h"
 #include "mgos_adc.h"
 #include "mgos_config.h"
-#include "tft.h"
 #include "mongoose-touch.h"
 #include "mgos_prometheus_metrics.h"
 
@@ -22,13 +21,13 @@ static int widget_battery_getvoltage() {
 
 static void widget_battery_render(struct widget_t *w, void *ev_data) {
   int mvolts;
-  color_t color;
+  uint16_t color;
   int h;
 
   if (!w)
     return;
 
-  mgos_ili9341_setclipwin(w->x, w->y, w->x+w->w, w->y+w->h);
+  mgos_ili9341_set_window(w->x, w->y, w->x+w->w, w->y+w->h);
 
   mvolts=widget_battery_getvoltage();
   color=ILI9341_RED;
@@ -39,11 +38,11 @@ static void widget_battery_render(struct widget_t *w, void *ev_data) {
   if (h<0) h=0;
   if (h>12) h=12;
 
-  mgos_ili9341_drawFastHLine(5, 2, 3, color);
-  mgos_ili9341_fillRect(2, 4, 9, 14, color);
+  mgos_ili9341_set_fgcolor565(color);
+  mgos_ili9341_drawLine(5, 2, 8, 4);
+  mgos_ili9341_fillRect(2, 4, 9, 14);
   if (h>0)
-    mgos_ili9341_fillRect(3, 5, 7, h, ILI9341_BLACK);
-  mgos_ili9341_resetclipwin();
+    mgos_ili9341_fillRect(3, 5, 7, h);
 
   (void) ev_data;
 }

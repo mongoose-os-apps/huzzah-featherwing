@@ -23,6 +23,7 @@ filesystem:
   - fs
 
 config_schema:
+#  - ["debug.level", 4]
   - ["sys.esp32_adc_vref", 3300] # ADC Vref is 3.3V
   - ["wifi.ap.enable", false]
   - ["wifi.sta.enable", true]
@@ -40,6 +41,19 @@ config_schema:
   - ["app.inactivity_timeout", 10]
   - ["app.battery_calibration", i, {title: "Battery ADC value at 4000mV"}]
   - ["app.battery_calibration", 2360]
+  - ["spi.enable", true]
+#  - ["spi.debug", true]
+  - ["spi.mosi_gpio", 18]
+  - ["spi.miso_gpio", 19]
+  - ["spi.sclk_gpio", 5]
+  - ["spi.cs0_gpio", 32]
+  - ["spi.cs1_gpio", -1]
+  - ["spi.cs2_gpio", -1]
+  - ["ili9341.cs_pin", 15]
+  - ["ili9341.dc_pin", 33]
+  - ["stmpe610.cs_index", 0]
+  - ["stmpe610.irq_pin", 23]
+
 
 
 # List of libraries used by this app, in order of initialisation
@@ -52,9 +66,9 @@ libs:
   - origin: https://github.com/mongoose-os-libs/prometheus-metrics
   - origin: https://github.com/mongoose-os-libs/pwm
   - origin: https://github.com/mongoose-os-libs/adc
-  - origin: libs/lobo-spi
-  - origin: libs/ili9341
-  - origin: libs/stmpe610
+  - origin: https://github.com/mongoose-os-libs/spi
+  - origin: https://github.com/pimvanpelt/ili9341-spi
+  - origin: https://github.com/pimvanpelt/stmpe610-spi
 
 # Used by the mos tool to catch mos binaries incompatible with this file format
 manifest_version: 2017-05-18

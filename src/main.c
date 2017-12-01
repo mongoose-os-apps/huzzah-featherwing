@@ -3,25 +3,16 @@
 
 #include "mgos.h"
 #include "mgos_pwm.h"
-#include "tft.h"
-#include "stmpe610.h"
 #include "mongoose-touch.h"
+#include "fonts/FreeMonoBold9pt7b.h"
 
 struct screen_t *screen = NULL;
 
-static long map(long x, long in_min, long in_max, long out_min, long out_max) {
-  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-
 static void touch_handler(struct mgos_stmpe610_event_data *ed) {
-  uint16_t x, y;
   struct widget_t *widget;
 
   if (!ed) return;
-
-  x = map(ed->x, 0, 4095, 0, _width-1);
-  y = map(ed->y, 0, 4095, 0, _height-1);
-  LOG(LL_INFO, ("Touch %s at (%d,%d) pressure=%d, length=%d", ed->direction==TOUCH_UP?"UP":"DOWN", x, y, ed->z, ed->length));
+  LOG(LL_INFO, ("Touch %s at (%d,%d) pressure=%d, length=%d", ed->direction==TOUCH_UP?"UP":"DOWN", ed->x, ed->y, ed->z, ed->length));
 
   // If the backlight is inactive, grab the TOUCH_DOWN and TOUCH_UP events.
   // Do nothing on TOUCH_DOWN, but reactivate the backlight by calling
@@ -39,7 +30,7 @@ static void touch_handler(struct mgos_stmpe610_event_data *ed) {
 
   backlight_keepalive();
 
-  widget = screen_widget_find_by_xy(screen, x, y);
+  widget = screen_widget_find_by_xy(screen, ed->x, ed->y);
 
   if (ed->direction==TOUCH_DOWN) {
     widget_network_recv();
@@ -56,10 +47,14 @@ void tft_demo(void)
 {
   struct widget_t *w;
 
-  mgos_ili9341_setRotation(mgos_sys_config_get_tft_orientation());
+//  mgos_ili9341_setRotation(mgos_sys_config_get_tft_orientation());
   mgos_stmpe610_set_rotation(mgos_sys_config_get_tft_orientation());
-  mgos_ili9341_setGammaCurve(DEFAULT_GAMMA_CURVE);
-  mgos_ili9341_setFont(DEFAULT_FONT, NULL);
+  mgos_stmpe610_set_handler(touch_handler);
+  mgos_stmpe610_set_dimensions(320, 240);
+
+  mgos_ili9341_set_font(&FreeMonoBold9pt7b);
+  mgos_ili9341_set_fgcolor(0,0,0);
+  mgos_ili9341_fillScreen();
 
   screen = screen_create_from_file("/screen_main.json", widget_default_ev, NULL);
   if (!screen) {
@@ -100,8 +95,6 @@ void tft_demo(void)
 enum mgos_app_init_result mgos_app_init(void)
 {
   backlight_init();
-
-  mgos_stmpe610_set_handler(touch_handler);
 
   tft_demo();
 

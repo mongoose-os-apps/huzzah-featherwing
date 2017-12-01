@@ -4,6 +4,8 @@
 #include "widget.h"
 #include "screen.h"
 #include "backlight.h"
+#include "mgos_ili9341.h"
+#include "mgos_stmpe610.h"
 
 void widget_time_ev(int ev, struct widget_t *w, void *ev_data);
 

@@ -1,5 +1,5 @@
 #include "backlight.h"
-#include "stmpe610.h"
+#include "mgos_stmpe610.h"
 
 static float backlight_duty;
 static float backlight_target_duty;

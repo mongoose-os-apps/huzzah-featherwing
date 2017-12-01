@@ -1,16 +1,18 @@
 #include "mgos.h"
-#include "tft.h"
 #include "mongoose-touch.h"
 
-static void widget_default_draw(struct widget_t *w, color_t color) {
+static void widget_default_draw(struct widget_t *w, uint16_t color) {
   if (!w)
     return;
-  mgos_ili9341_setclipwin(w->x, w->y, w->x+w->w, w->y+w->h);
+  mgos_ili9341_set_window(w->x, w->y, w->x+w->w, w->y+w->h);
 
-  mgos_ili9341_drawRoundRect(0, 0, w->w, w->h, 8, color);
+  mgos_ili9341_set_fgcolor565(color);
+  mgos_ili9341_drawRoundRect(0, 0, w->w, w->h, 8);
 
+/*
   if (w->img)
     mgos_ili9341_png(0, 0, w->img);
+*/
 }
 
 void widget_default_ev(int ev, struct widget_t *w, void *ev_data) {

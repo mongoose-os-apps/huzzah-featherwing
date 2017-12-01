@@ -1,5 +1,4 @@
 #include "mgos.h"
-#include "tft.h"
 #include "mongoose-touch.h"
 #include <esp_wifi.h>
 
@@ -25,22 +24,25 @@ static uint8_t widget_wifi_signal() {
 static void widget_wifi_render(struct widget_t *w, void *ev_data) {
   uint8_t x, signal;
 
-  mgos_ili9341_setclipwin(w->x, w->y, w->x+w->w, w->y+w->h);
+  mgos_ili9341_set_window(w->x, w->y, w->x+w->w, w->y+w->h);
 
-  mgos_ili9341_fillTriangle(2, 18, 18, 18, 18, 2, ILI9341_DARKGREY);
+  mgos_ili9341_set_fgcolor565(ILI9341_DARKGREY);
+  mgos_ili9341_fillTriangle(2, 18, 18, 18, 18, 2);
 
   // Map signal strength from [0..100] to [0..16]
   signal = widget_wifi_signal();
   x = map(signal, 0, 100, 0, 16);
-  if (x>0)
-    mgos_ili9341_fillTriangle(2, 18, 2+x, 18, 2+x, 18-x, ILI9341_WHITE);
+  if (x>0) {
+    mgos_ili9341_set_fgcolor565(ILI9341_WHITE);
+    mgos_ili9341_fillTriangle(2, 18, 2+x, 18, 2+x, 18-x);
+  }
 
   // Draw an X in the corner if we don't have an IP address.
   if (mgos_wifi_get_status() != MGOS_WIFI_IP_ACQUIRED) {
-    mgos_ili9341_drawLine(11, 11, 16, 16, ILI9341_RED);
-    mgos_ili9341_drawLine(11, 16, 16, 11, ILI9341_RED);
+    mgos_ili9341_set_fgcolor565(ILI9341_RED);
+    mgos_ili9341_drawLine(11, 11, 16, 16);
+    mgos_ili9341_drawLine(11, 16, 16, 11);
   }
-  mgos_ili9341_resetclipwin();
 
   (void) ev_data;
 }
