@@ -12,7 +12,7 @@ static void widget_default_draw(struct widget_t *w, uint16_t color) {
  
   if (w->img) {
     mgos_ili9341_set_fgcolor565(ILI9341_BLUE);
-    mgos_ili9341_drawRoundRect(0, 0, w->w, w->h, 16);
+    mgos_ili9341_drawDIF(0, 0, w->img);
   } else if (w->label) {
     int16_t text_width, text_height;
     uint16_t x, y;

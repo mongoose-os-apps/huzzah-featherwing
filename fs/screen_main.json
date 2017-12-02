@@ -37,7 +37,7 @@
       "w": 128,
       "h": 98,
       "type": 1,
-      "img": "/mongoose-os.png"
+      "img": "/mongoose-os.dif"
     },
     {
       "name": "flowers",
@@ -46,7 +46,7 @@
       "w": 106,
       "h": 98,
       "type": 1,
-      "img": "/flowers.png"
+      "img": "/flowers.dif"
     }
   ]
 }
