@@ -16,7 +16,7 @@ struct widget_t;
 
 enum widget_type_t {
   WIDGET_TYPE_NONE           =0,
-  WIDGET_TYPE_IMAGE          =1,
+  WIDGET_TYPE_MQTT_BUTTON    =1,
   WIDGET_TYPE_LOADSCREEN     =2,
 };
 

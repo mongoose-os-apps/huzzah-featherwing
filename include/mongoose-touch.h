@@ -23,5 +23,7 @@ void widget_battery_ev(int ev, struct widget_t *w, void *ev_data);
 
 void widget_default_ev(int ev, struct widget_t *w, void *ev_data);
 
+void screen_add_default_widgets(struct screen_t *screen);
+
 
 #endif // __MONGOOSE_TOUCH_H

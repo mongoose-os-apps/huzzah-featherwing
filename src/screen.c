@@ -72,6 +72,15 @@ exit:
 }
 
 void screen_destroy(struct screen_t **s) {
+  struct widget_list_t *wl;
+  if (!(*s))
+    return;
+
+  // Destroy all widgets
+  SLIST_FOREACH(wl, &(*s)->widget_entries, entries) {
+    widget_destroy(&wl->widget);
+    SLIST_REMOVE(&(*s)->widget_entries, wl, widget_list_t, entries);
+  }
   if ((*s)->name) free ((*s)->name);
   free(*s);
   *s = NULL;

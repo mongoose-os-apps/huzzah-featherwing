@@ -2,11 +2,12 @@
 #include "mongoose-touch.h"
 
 extern GFXfont FreeSerifBold9pt7b;
+extern struct screen_t *s_screen;
 
 static void widget_default_destroy(struct widget_t *w) {
   if (!w)
     return;
-  mgos_ili9341_set_window(w->x, w->y, w->x+w->w-1, w->y+w->h-1);
+  mgos_ili9341_set_window(w->x, w->y, w->x+w->w, w->y+w->h);
   mgos_ili9341_set_fgcolor565(ILI9341_BLACK);
   mgos_ili9341_fillRect(0,0,w->w,w->h);
 }
@@ -39,7 +40,69 @@ static void widget_default_draw(struct widget_t *w, uint16_t color) {
       y=(w->h-text_height)/2;
     mgos_ili9341_print(x, y, w->label);
   }
+}
 
+void screen_add_default_widgets(struct screen_t *screen) {
+  struct widget_t *w;
+  if (!screen)
+    return;
+
+  w = widget_create("name", 0, 0, 185, 20);
+  widget_set_handler(w, widget_name_ev);
+  screen_widget_add(screen, w);
+
+  w = widget_create("network", 185, 0, 22, 20);
+  widget_set_handler(w, widget_network_ev);
+  screen_widget_add(screen, w);
+
+  w = widget_create("wifi", 207, 0, 20, 20);
+  widget_set_handler(w, widget_wifi_ev);
+  widget_set_timer(w, 5000);
+  screen_widget_add(screen, w);
+
+  w = widget_create("battery", 227, 0, 13, 20);
+  widget_set_handler(w, widget_battery_ev);
+  widget_set_timer(w, 10000);
+  screen_widget_add(screen, w);
+
+  w = widget_create("time", 240, 0, 80, 20);
+  widget_set_handler(w, widget_time_ev);
+  widget_set_timer(w, 1000);
+  screen_widget_add(screen, w);
+
+  w = widget_create("topbar", 0, 21, 320, 2);
+  widget_set_handler(w, widget_topbar_ev);
+  screen_widget_add(screen, w);
+}
+
+
+static void widget_default_loadscreen(struct widget_t *w, void *ev_data) {
+  struct screen_t *new_screen;
+  char *new_screen_filename;
+
+  if (!w)
+    return;
+  if (!w->user_data) {
+    LOG(LL_ERROR, ("Widget '%s' does not have user_data set", w->name));
+    return;
+  }
+
+  // screen_destroy will destroy our widget *w, so take what we need to continue
+  new_screen_filename=strdup(w->user_data);
+
+  screen_destroy(&s_screen);
+
+  new_screen = screen_create_from_file(new_screen_filename, widget_default_ev, NULL);
+  free(new_screen_filename);
+  if (!new_screen) {
+    LOG(LL_ERROR, ("Could not load screen"));
+    return;
+  }
+  screen_add_default_widgets(new_screen);
+  LOG(LL_INFO, ("Navigating to new screen '%s' which has %d widgets", new_screen->name, screen_get_num_widgets(new_screen)));
+  s_screen = new_screen;
+
+  (void) ev_data;
 }
 
 void widget_default_ev(int ev, struct widget_t *w, void *ev_data) {
@@ -56,8 +119,13 @@ void widget_default_ev(int ev, struct widget_t *w, void *ev_data) {
     case EV_WIDGET_DRAW:
     case EV_WIDGET_REDRAW:
     case EV_WIDGET_TIMER:
-    case EV_WIDGET_TOUCH_UP:
       widget_default_draw(w, ILI9341_GREEN);
+      break;
+    case EV_WIDGET_TOUCH_UP:
+      if (w->type == WIDGET_TYPE_LOADSCREEN)
+        widget_default_loadscreen(w, ev_data);
+      else
+        widget_default_draw(w, ILI9341_GREEN);
       break;
     case EV_WIDGET_TOUCH_DOWN:
       widget_default_draw(w, ILI9341_RED);

@@ -11,7 +11,7 @@
 #define WIDGET_NAME_EMPTY   4
 
 static uint8_t what = WIDGET_NAME_NAME;
-extern struct screen_t *screen;
+extern struct screen_t *s_screen;
 extern GFXfont FreeMonoBold9pt7b;
 
 static void widget_name_render(struct widget_t *w, void *ev_data) {
@@ -44,8 +44,8 @@ static void widget_name_render(struct widget_t *w, void *ev_data) {
       free(p);
       break;
     case WIDGET_NAME_SCREEN:
-      if (screen)
-        sprintf(namestring, "%-20s", screen->name);
+      if (s_screen)
+        sprintf(namestring, "%-20s", s_screen->name);
       else
         sprintf(namestring, "%-20s", "(no Screen)");
       break;

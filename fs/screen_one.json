@@ -9,7 +9,7 @@
       "h": 48,
       "label": "Back",
       "type": 2,
-      "screen": "screen_main.json"
+      "screen": "/screen_main.json"
     },
     {
       "name": "one",
@@ -18,8 +18,7 @@
       "w": 48,
       "h": 48,
       "label": "One",
-      "type": 1,
-      "img": "/flower.jpg"
+      "type": 0
     }
   ]
 }

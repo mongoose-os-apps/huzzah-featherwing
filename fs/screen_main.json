@@ -9,7 +9,7 @@
       "h": 56,
       "label": "One",
       "type": 2,
-      "screen": "screen_one.json"
+      "screen": "/screen_one.json"
     },
     {
       "name": "two",
@@ -19,7 +19,7 @@
       "h": 56,
       "label": "Two",
       "type": 2,
-      "screen": "screen_two.json"
+      "screen": "/screen_two.json"
     },
     {
       "name": "three",
@@ -28,7 +28,7 @@
       "w": 64,
       "h": 64,
       "label": "Three",
-      "type": 2
+      "type": 0
     },
     {
       "name": "logo",
@@ -36,7 +36,7 @@
       "y": 110,
       "w": 128,
       "h": 98,
-      "type": 1,
+      "type": 0,
       "img": "/mongoose-os.dif"
     },
     {
@@ -45,7 +45,7 @@
       "y": 110,
       "w": 106,
       "h": 98,
-      "type": 1,
+      "type": 0,
       "img": "/flowers.dif"
     }
   ]
