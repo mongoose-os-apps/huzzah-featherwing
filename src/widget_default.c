@@ -78,7 +78,6 @@ void screen_add_default_widgets(struct screen_t *screen) {
 
 static void widget_default_loadscreen(struct widget_t *w, void *ev_data) {
   struct screen_t *new_screen;
-  char *new_screen_filename;
 
   if (!w)
     return;
@@ -87,20 +86,18 @@ static void widget_default_loadscreen(struct widget_t *w, void *ev_data) {
     return;
   }
 
-  // screen_destroy will destroy our widget *w, so take what we need to continue
-  new_screen_filename=strdup(w->user_data);
 
-  screen_destroy(&s_screen);
-
-  new_screen = screen_create_from_file(new_screen_filename, widget_default_ev, NULL);
-  free(new_screen_filename);
+  new_screen = screen_create_from_file(w->user_data, widget_default_ev, NULL);
   if (!new_screen) {
     LOG(LL_ERROR, ("Could not load screen"));
     return;
   }
   screen_add_default_widgets(new_screen);
+
   LOG(LL_INFO, ("Navigating to new screen '%s' which has %d widgets", new_screen->name, screen_get_num_widgets(new_screen)));
+  screen_destroy(&s_screen);
   s_screen = new_screen;
+  screen_widget_broadcast(s_screen, EV_WIDGET_DRAW, NULL);
 
   (void) ev_data;
 }
@@ -116,6 +113,7 @@ void widget_default_ev(int ev, struct widget_t *w, void *ev_data) {
 
   switch(ev) {
     case EV_WIDGET_CREATE:
+      break;
     case EV_WIDGET_DRAW:
     case EV_WIDGET_REDRAW:
     case EV_WIDGET_TIMER:

@@ -65,6 +65,7 @@ void widget_battery_ev(int ev, struct widget_t *w, void *ev_data) {
       LOG(LL_INFO, ("Monitoring LiPo voltage on gpio=%d", WIDGET_BATTERY_ADC_PIN));
       mgos_adc_enable(WIDGET_BATTERY_ADC_PIN);
       mgos_prometheus_metrics_add_handler(prometheus_battery_metrics_fn, NULL);
+      break;
     case EV_WIDGET_DRAW:
     case EV_WIDGET_REDRAW:
     case EV_WIDGET_TIMER:

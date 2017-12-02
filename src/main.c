@@ -60,6 +60,7 @@ void tft_demo(void)
     return;
   }
   screen_add_default_widgets(s_screen);
+  screen_widget_broadcast(s_screen, EV_WIDGET_DRAW, NULL);
   LOG(LL_INFO, ("Screen '%s' has %d widgets", s_screen->name, screen_get_num_widgets(s_screen)));
 }
 

@@ -58,6 +58,7 @@ void widget_wifi_ev(int ev, struct widget_t *w, void *ev_data) {
 
   switch(ev) {
     case EV_WIDGET_CREATE:
+      break;
     case EV_WIDGET_DRAW:
     case EV_WIDGET_REDRAW:
     case EV_WIDGET_TIMER:

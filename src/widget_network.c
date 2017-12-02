@@ -58,6 +58,7 @@ void widget_network_ev(int ev, struct widget_t *w, void *ev_data) {
   switch(ev) {
     case EV_WIDGET_CREATE:
       widget_network=w;
+      break;
     case EV_WIDGET_DRAW:
     case EV_WIDGET_REDRAW:
       widget_network_render(w, ev_data);
