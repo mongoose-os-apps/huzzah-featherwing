@@ -3,6 +3,14 @@
 
 extern GFXfont FreeSerifBold9pt7b;
 
+static void widget_default_destroy(struct widget_t *w) {
+  if (!w)
+    return;
+  mgos_ili9341_set_window(w->x, w->y, w->x+w->w-1, w->y+w->h-1);
+  mgos_ili9341_set_fgcolor565(ILI9341_BLACK);
+  mgos_ili9341_fillRect(0,0,w->w,w->h);
+}
+
 static void widget_default_draw(struct widget_t *w, uint16_t color) {
   if (!w)
     return;
@@ -55,6 +63,8 @@ void widget_default_ev(int ev, struct widget_t *w, void *ev_data) {
       widget_default_draw(w, ILI9341_RED);
       break;
     case EV_WIDGET_DESTROY:
+      widget_default_destroy(w);
+      break;
     default: // EV_WIDGET_NONE
       break;
   }
