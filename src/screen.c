@@ -155,6 +155,19 @@ struct widget_t *screen_widget_find_by_xy(struct screen_t *s, uint16_t x, uint16
   return NULL;
 }
 
+void screen_widget_broadcast(struct screen_t *s, int ev, void *ev_data) {
+  struct widget_list_t *wl;
+
+  if (!s)
+    return NULL;
+
+  SLIST_FOREACH(wl, &s->widget_entries, entries) {
+    if (wl->widget->handler)
+      wl->widget->handler(ev, wl->widget, ev_data);
+  }
+  return NULL;
+}
+
 void screen_widget_set_handler(struct screen_t *s, widget_event_fn handler) {
   if (!s)
     return;
