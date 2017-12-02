@@ -30,7 +30,6 @@ struct screen_t *screen_create_from_file(char *fn, widget_event_fn handler, void
 
 struct screen_t *screen_create_from_json(char *json, widget_event_fn handler, void *user_data) {
   void *h = NULL;
-//  struct json_token key;
   struct json_token val;
   int idx;
   struct screen_t *screen = NULL;
@@ -48,6 +47,7 @@ struct screen_t *screen_create_from_json(char *json, widget_event_fn handler, vo
   
 /*
   // Traverse Object
+  struct json_token key;
   while ((h = json_next_key(json, strlen(json), h, ".", &key, &val)) != NULL) {
     printf("[%.*s] -> [%.*s]\n", key.len, key.ptr, val.len, val.ptr);
   }
@@ -56,7 +56,7 @@ struct screen_t *screen_create_from_json(char *json, widget_event_fn handler, vo
 
   // Traverse Array
   while ((h = json_next_elem(json, strlen(json), h, ".widgets", &idx, &val)) != NULL) {
-//    printf("[%d]: [%.*s]\n", idx, val.len, val.ptr);
+//    LOG(LL_DEBUG, ("[%d]: [%.*s]\n", idx, val.len, val.ptr));
     if (val.len>0 && val.ptr) {
       widget = widget_create_from_json(val.ptr);
       widget_set_handler(widget, screen->default_widget_handler);
@@ -145,7 +145,7 @@ struct widget_t *screen_widget_find_by_xy(struct screen_t *s, uint16_t x, uint16
     return NULL;
 
   SLIST_FOREACH(wl, &s->widget_entries, entries) {
-    LOG(LL_DEBUG, ("Inspecing widget '%s' (x=%d,y=%d,w=%d,h=%d)", wl->widget->name, wl->widget->x, wl->widget->y, wl->widget->w, wl->widget->h));
+//    LOG(LL_DEBUG, ("Inspecing widget '%s' (x=%d,y=%d,w=%d,h=%d)", wl->widget->name, wl->widget->x, wl->widget->y, wl->widget->w, wl->widget->h));
     if (wl->widget->x <= x &&
         x < (wl->widget->x+wl->widget->w) &&
         wl->widget->y <= y &&
@@ -159,13 +159,14 @@ void screen_widget_broadcast(struct screen_t *s, int ev, void *ev_data) {
   struct widget_list_t *wl;
 
   if (!s)
-    return NULL;
+    return;
 
+//  LOG(LL_DEBUG, ("Sending ev=%d to all widgets", ev));
   SLIST_FOREACH(wl, &s->widget_entries, entries) {
     if (wl->widget->handler)
       wl->widget->handler(ev, wl->widget, ev_data);
   }
-  return NULL;
+  return;
 }
 
 void screen_widget_set_handler(struct screen_t *s, widget_event_fn handler) {
