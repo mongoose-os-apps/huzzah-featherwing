@@ -68,6 +68,7 @@ struct widget_t *widget_create_from_json(const char *json) {
   char *name = NULL;
   char *label = NULL;
   char *img = NULL;
+  char *screen = NULL;
 
   if (json_scanf(json, strlen(json), "{name:%Q,x:%d,y:%d,w:%d,h:%d}", &name, &x, &y, &w, &h) != 5) {
     LOG(LL_ERROR, ("Incomplete JSON: require 'x', 'y', 'w', 'h' and 'name' fields"));
@@ -80,6 +81,14 @@ struct widget_t *widget_create_from_json(const char *json) {
   widget->type=type;
   widget->label=label;
   widget->img=img;
+  if (type == WIDGET_TYPE_LOADSCREEN) {
+    if (json_scanf(json, strlen(json), "{screen:%Q}", &screen) != 1) {
+      LOG(LL_WARN, ("Widget '%s' is of type LOADSCREEN but does not have attribute 'screen'", widget->name));
+    } else {
+      if (widget->user_data) free(widget->user_data);
+      widget->user_data = screen;
+    }
+  }
 
   return widget;
 }
