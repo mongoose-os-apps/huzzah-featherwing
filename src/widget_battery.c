@@ -6,6 +6,7 @@
 
 
 #define WIDGET_BATTERY_ADC_PIN 35
+static bool metrics_registered=false;
 
 // Returns millivolts - Huzzah32 has a 1:1 voltage divider on I35 (A13)
 // so it returns half of the battery voltage. Calibrate the function by
@@ -64,7 +65,9 @@ void widget_battery_ev(int ev, struct widget_t *w, void *ev_data) {
     case EV_WIDGET_CREATE:
       LOG(LL_INFO, ("Monitoring LiPo voltage on gpio=%d", WIDGET_BATTERY_ADC_PIN));
       mgos_adc_enable(WIDGET_BATTERY_ADC_PIN);
-      mgos_prometheus_metrics_add_handler(prometheus_battery_metrics_fn, NULL);
+      if (!metrics_registered)
+        mgos_prometheus_metrics_add_handler(prometheus_battery_metrics_fn, NULL);
+      metrics_registered=true;
       break;
     case EV_WIDGET_DRAW:
     case EV_WIDGET_REDRAW:
