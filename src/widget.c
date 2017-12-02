@@ -107,11 +107,10 @@ struct widget_t *widget_create_from_file(const char *fn) {
   return widget;
 }
 
-void widget_set_handler(struct widget_t *w, widget_event_fn handler, void *user_data) {
+void widget_set_handler(struct widget_t *w, widget_event_fn handler) {
   if (!w)
     return;
   w->handler = handler;
-  w->user_data = user_data;
   if (!w->create_called && w->handler)
     handler(EV_WIDGET_CREATE, w, NULL);
     

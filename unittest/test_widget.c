@@ -49,7 +49,7 @@ static int test_widget_create_from_file(void) {
   ASSERT(_mgos_timers==1, "timer not found");
 
   LOG(LL_INFO, ("widget_set_handler()"));
-  widget_set_handler(w, test_widget_default_ev, NULL);
+  widget_set_handler(w, test_widget_default_ev);
   
 
   LOG(LL_INFO, ("widget_delete_timer()"));

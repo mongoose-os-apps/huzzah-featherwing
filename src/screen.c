@@ -44,7 +44,7 @@ struct screen_t *screen_create_from_json(char *json, widget_event_fn handler, vo
   screen = screen_create(screen_name);
   if (!screen)
     return NULL;
-  screen_widget_set_handler(screen, handler, user_data);
+  screen_widget_set_handler(screen, handler);
   
 /*
   // Traverse Object
@@ -59,7 +59,7 @@ struct screen_t *screen_create_from_json(char *json, widget_event_fn handler, vo
 //    printf("[%d]: [%.*s]\n", idx, val.len, val.ptr);
     if (val.len>0 && val.ptr) {
       widget = widget_create_from_json(val.ptr);
-      widget_set_handler(widget, screen->default_widget_handler, screen->default_user_data);
+      widget_set_handler(widget, screen->default_widget_handler);
       if (!screen_widget_add(screen, widget)) {
         LOG(LL_ERROR, ("Could not add widget to screen"));
       }
@@ -98,7 +98,7 @@ struct widget_t *screen_widget_add_from_file(struct screen_t *s, char *fn) {
   w = widget_create_from_file(fn);
   if (!w)
     return NULL;
-  widget_set_handler(w, s->default_widget_handler, s->default_user_data);
+  widget_set_handler(w, s->default_widget_handler);
   screen_widget_add(s, w);
   return w;
 }
@@ -146,10 +146,9 @@ struct widget_t *screen_widget_find_by_xy(struct screen_t *s, uint16_t x, uint16
   return NULL;
 }
 
-void screen_widget_set_handler(struct screen_t *s, widget_event_fn handler, void *user_data) {
+void screen_widget_set_handler(struct screen_t *s, widget_event_fn handler) {
   if (!s)
     return;
   s->default_widget_handler=handler;
-  s->default_user_data=user_data;
   return;
 }

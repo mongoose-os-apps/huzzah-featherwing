@@ -63,30 +63,30 @@ void tft_demo(void)
   }
 
   w = widget_create("name", 0, 0, 185, 20);
-  widget_set_handler(w, widget_name_ev, NULL);
+  widget_set_handler(w, widget_name_ev);
   screen_widget_add(screen, w);
 
   w = widget_create("network", 185, 0, 22, 20);
-  widget_set_handler(w, widget_network_ev, NULL);
+  widget_set_handler(w, widget_network_ev);
   screen_widget_add(screen, w);
 
   w = widget_create("wifi", 207, 0, 20, 20);
-  widget_set_handler(w, widget_wifi_ev, NULL);
+  widget_set_handler(w, widget_wifi_ev);
   widget_set_timer(w, 5000);
   screen_widget_add(screen, w);
 
   w = widget_create("battery", 227, 0, 13, 20);
-  widget_set_handler(w, widget_battery_ev, NULL);
+  widget_set_handler(w, widget_battery_ev);
   widget_set_timer(w, 10000);
   screen_widget_add(screen, w);
 
   w = widget_create("time", 240, 0, 80, 20);
-  widget_set_handler(w, widget_time_ev, NULL);
+  widget_set_handler(w, widget_time_ev);
   widget_set_timer(w, 1000);
   screen_widget_add(screen, w);
 
   w = widget_create("topbar", 0, 21, 320, 2);
-  widget_set_handler(w, widget_topbar_ev, NULL);
+  widget_set_handler(w, widget_topbar_ev);
   screen_widget_add(screen, w);
 
   LOG(LL_INFO, ("Screen '%s' has %d widgets", screen->name, screen_get_num_widgets(screen)));

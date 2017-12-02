@@ -12,7 +12,6 @@ struct screen_t {
   // Private
   SLIST_HEAD(widget_entries, widget_list_t) widget_entries;
   widget_event_fn default_widget_handler;
-  void *default_user_data;
 };
 
 struct screen_t *screen_create(char *name);
@@ -20,7 +19,7 @@ struct screen_t *screen_create_from_file(char *fn, widget_event_fn handler, void
 struct screen_t *screen_create_from_json(char *json, widget_event_fn handler, void *user_data);
 void screen_destroy(struct screen_t **s);
 
-void screen_widget_set_handler(struct screen_t *s, widget_event_fn handler, void *user_data);
+void screen_widget_set_handler(struct screen_t *s, widget_event_fn handler);
 
 bool screen_widget_add(struct screen_t *s, struct widget_t *w);
 struct widget_t *screen_widget_add_from_file(struct screen_t *s, char *fn);
