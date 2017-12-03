@@ -151,11 +151,11 @@ Users typically create a screen by:
 ```c
   struct screen_t *screen;
   struct widget_t *w;
-  screen=screen_create_from_file("/screen_home.json", widget_default_ev, NULL);
+  screen=screen_create_from_file("/screen_home.json", widget_default_ev);
 
   // Add a custom widget
   w = widget_create("time", 240, 0, 80, 20);
-  widget_set_handler(w, widget_time_ev, NULL);
+  widget_set_handler(w, widget_time_ev);
   widget_set_timer(w, 1000);
   screen_widget_add(screen, w);
 ```
@@ -219,7 +219,7 @@ code operates as designed.
 Several pieces of code were borrowed from other authors. In particular, kudos
 go to the following fine individuals:
 
-*   ***Espressif Systems*** for the SPI driver
+*   ***Espressif Systems*** for the awesome ESP8266 and ESP32 microcontrollers.
 *   ***LoBo*** (loboris@GitHub) for a reference ILI9341 driver for ESP32 (which
     the author rewrote to use native Mongoose OS SPI).
 *   ***Adafruit*** for inspiration on the STMPE610 driver (which the author
@@ -227,5 +227,3 @@ go to the following fine individuals:
 *   ***Lode Vandevenne*** and ***Sean Middleditch*** for the uPNG code to
     handle PNG images.
 *   ***Cesanta*** for Mongoose OS, Mongoose, and the JSON `frozen` library.
-
-
