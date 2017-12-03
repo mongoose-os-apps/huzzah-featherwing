@@ -1,4 +1,4 @@
-# Mongoose OS Huzzah32 Featherwing
+# Mongoose OS Huzzah/Huzzah32 Featherwing
 
 ## Introduction
 
@@ -10,6 +10,9 @@ build around two popular pieces of hardware, both available from Adafruit:
 
 [![Video Intro](https://img.youtube.com/vi/d9CZ4VMgTGI/0.jpg)](https://www.youtube.com/watch?v=d9CZ4VMgTGI)
 
+The code is cross-platform, and will also compile and run on ESP8266, although
+it will be considerably faster on the ESP32 on Huzzah32.
+
 ## Hardware: Moving Parts
 
 The TFT Featherwing features three components:
@@ -18,13 +21,13 @@ The TFT Featherwing features three components:
 *   STMPE610 Resistive touchscreen driven by SPI
 *   MicroSD storage device driven by SPI
 
-The Huzzah32 plugs right into the TFT Featherwing for a compact device
+The Huzzah plugs right into the TFT Featherwing for a compact device
 without the need for breadboards, dupont wires and the like. It's really
 a great platform to showcase the power of Mongoose OS.
 
 ### Hardware: Observations
 
-The Huzzah32 uses its SPI bus to communicate with the touch sensor and the
+The Huzzah uses its SPI bus to communicate with the touch sensor and the
 TFT screen. Its `MOSI`, `MISO` and `SCLK` pins are shared with the other
 devices, and it selects which slave device to communicate with by means of
 three `CS` pins. 
@@ -45,15 +48,21 @@ Peculiarities of the hardware setup:
 *   The Huzzah32 has a built in 3.7V LiPo, and charges it when the device
     is connected to USB. Adafruit have helpfully connected the battery
     output to an ADC pin (A13 / GPIO35) using a 1:1 voltage divider (so a
-    full LiPo battery at 4.2V will read out at 2.1V on the ADC channel.
+    full LiPo battery at 4.2V will read out at 2.1V on the ADC channel. 
+    **Note** The Huzzah (ESP8266 version) does not have the battery
+    connected to an ADC pin.
 
 #### Soldering Requirements
 
 The `LITE` and `IRQ` pads on the TFT Featherwing have to be soldered to
-connect them to the Huzzah32:
+connect them to the Huzzah:
 
-*   Solder the `IRQ` pad to pin 23, the top left pad.
-*   Solder the `LITE` pad to pin 22, the second from the top left pad.
+*   Solder the `IRQ` pad to the top left pad.
+
+*   Solder the `LITE` pad to the second from the top left pad.
+
+See `mos.yml` to see which pins these pads represent on the micro controller as
+they are different between Huzzah (ESP8266) and Huzzah32 (ESP32).
 
 Here's a picture to help you find your bearings:
 
