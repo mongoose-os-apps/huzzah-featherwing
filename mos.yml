@@ -1,5 +1,5 @@
 author: Pim van Pelt <pim@ipng.nl>
-description: A Mongoose-OS Huzzah32 Featherwing
+description: A Mongoose-OS Huzzah TFT Featherwing demo
 version: 1.0
 platform: esp32
 platforms: [ esp8266, esp32 ]
@@ -24,12 +24,6 @@ filesystem:
   - fs
 
 config_schema:
-#  - ["debug.level", 4]
-#  - ["spi.debug", true]
-  - ["wifi.ap.enable", false]
-  - ["wifi.sta.enable", true]
-  - ["wifi.sta.ssid", "dapches-iot"]
-  - ["wifi.sta.pass", "marielle"]
   - ["tft", "o", {title: "TFT settings"}]
   - ["tft.orientation", "i", {title: "Orientation; 0=PORTRAIT 1=LANDSCAPE 2=PORTRAIT_FLIP 3=LANDSCAPE_FLIP"}]
   - ["tft.orientation", 1 ]
@@ -37,15 +31,14 @@ config_schema:
   - ["app.hostname", "s", {title: "Device hostname"}]
   - ["app.hostname", "Mongoose Touch"]
   - ["app.backlight_pin", "i", {title: "Backlight pin"}]
-  - ["app.backlight_pin", 22]
   - ["app.inactivity_timeout", "i", {title: "Inactivity timeout in seconds"}]
   - ["app.inactivity_timeout", 10]
   - ["app.battery_calibration", i, {title: "Battery ADC value at 4000mV"}]
   - ["app.battery_calibration", 2360]
   - ["spi.enable", true]
-  - ["spi.cs1_gpio", -1]
   - ["spi.cs2_gpio", -1]
-  - ["stmpe610.cs_index", 0]
+  - ["ili9341.cs_index", 0]
+  - ["stmpe610.cs_index", 1]
 
 conds:
   - when: mos.platform == "esp32"
@@ -57,14 +50,24 @@ conds:
         - ["spi.mosi_gpio", 18]
         - ["spi.miso_gpio", 19]
         - ["spi.sclk_gpio", 5]
-        - ["spi.cs0_gpio", 32]
-        - ["ili9341.cs_pin", 15]
+        - ["spi.cs0_gpio", 15] # ILI9341
+        - ["spi.cs1_gpio", 32] # STMPE610
         - ["ili9341.dc_pin", 33]
         - ["stmpe610.irq_pin", 23]
+        - ["app.backlight_pin", 22]
   - when: mos.platform == "esp8266"
     apply:
       build_vars:
         MGOS_PLATFORM_ESP8266: 1
+      config_schema:
+        - ["spi.mosi_gpio", 13]
+        - ["spi.miso_gpio", 12]
+        - ["spi.sclk_gpio", 14]
+        - ["spi.cs0_gpio", 16] # ILI9341
+        - ["spi.cs1_gpio", 0] # STMPE610
+        - ["ili9341.dc_pin", 15]
+        - ["stmpe610.irq_pin", 4]
+        - ["app.backlight_pin", 5]
 
 
 
@@ -79,8 +82,8 @@ libs:
   - origin: https://github.com/mongoose-os-libs/pwm
   - origin: https://github.com/mongoose-os-libs/adc
   - origin: https://github.com/mongoose-os-libs/spi
-  - origin: https://github.com/pimvanpelt/ili9341-spi
-  - origin: https://github.com/pimvanpelt/stmpe610-spi
+  - origin: https://github.com/mongoose-os-libs/ili9341-spi
+  - origin: https://github.com/mongoose-os-libs/stmpe610-spi
 
 # Used by the mos tool to catch mos binaries incompatible with this file format
 manifest_version: 2017-05-18

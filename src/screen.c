@@ -69,6 +69,7 @@ struct screen_t *screen_create_from_json(char *json, widget_event_fn handler, vo
 exit:
   if (screen_name) free(screen_name);
   return screen;
+  (void) user_data;
 }
 
 void screen_destroy(struct screen_t **s) {
