@@ -10,8 +10,9 @@ build around two popular pieces of hardware, both available from Adafruit:
 
 [![Video Intro](https://img.youtube.com/vi/d9CZ4VMgTGI/0.jpg)](https://www.youtube.com/watch?v=d9CZ4VMgTGI)
 
-The code is cross-platform, and will also compile and run on ESP8266, although
-it will be considerably faster on the ESP32 on Huzzah32.
+The code is cross-platform, and will also compile and run on ESP8266 (Huzzah
+feather), although it will be considerably faster on the ESP32 (Huzzah32
+feather).
 
 ## Hardware: Moving Parts
 
