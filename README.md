@@ -74,8 +74,8 @@ Here's a picture to help you find your bearings:
 
 To showcase the idiomatic use of Mongoose OS, we will to do the following:
 
-1.  Write drivers for the [ILI9341](https://github.com/pimvanpelt/ili9341-spi)
-    and [STMPE610](https://github.com/pimvanpelt/stmpe610-spi) chips. We've taken
+1.  Write drivers for the [ILI9341](https://github.com/mongoose-os-libs/ili9341-spi)
+    and [STMPE610](https://github.com/mongoose-os-libs/stmpe610-spi) chips. We've taken
     the native Mongoose OS SPI driver as a base -- this way, this code will run
     on _any hardware target_ that Mongoose OS supports.
 1.  Install an interrupt handler for the touch screen events.
