@@ -47,7 +47,7 @@ static void touch_handler(struct mgos_stmpe610_event_data *ed) {
 void tft_demo(void)
 {
   mgos_ili9341_set_rotation(mgos_sys_config_get_tft_orientation());
-  mgos_stmpe610_set_rotation(mgos_sys_config_get_tft_orientation());
+  mgos_ili9341_set_dimensions(320, 240);
   mgos_stmpe610_set_handler(touch_handler);
   mgos_stmpe610_set_dimensions(320, 240);
 

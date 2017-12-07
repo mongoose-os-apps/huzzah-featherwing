@@ -39,6 +39,7 @@ config_schema:
   - ["spi.cs2_gpio", -1]
   - ["ili9341.cs_index", 0]
   - ["stmpe610.cs_index", 1]
+  - ["stmpe610.orientation", 4]   # Swap X and Y
 
 conds:
   - when: mos.platform == "esp32"
