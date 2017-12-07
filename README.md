@@ -7,7 +7,7 @@ build around two popular pieces of hardware, both available from Adafruit:
 
 *   [Huzzah32 ESP32 Feather](https://learn.adafruit.com/adafruit-huzzah32-esp32-feather/)
 *   [2.4" TFT/TouchScreen Featherwing](https://learn.adafruit.com/adafruit-2-4-tft-touch-screen-featherwing/)
-*   Also workds for [3.5" TFT/TouchScreen Featherwing](https://learn.adafruit.com/adafruit-3-5-tft-featherwing/)
+*   Also works for [3.5" TFT/TouchScreen Featherwing](https://learn.adafruit.com/adafruit-3-5-tft-featherwing/)
 
 [![Video Intro](https://img.youtube.com/vi/d9CZ4VMgTGI/0.jpg)](https://www.youtube.com/watch?v=d9CZ4VMgTGI)
 
