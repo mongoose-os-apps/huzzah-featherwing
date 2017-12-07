@@ -44,6 +44,9 @@ config_schema:
   - ["ili9341.cs_index", 0]
   - ["stmpe610.cs_index", 1]
   - ["stmpe610.orientation", 5]   # Set to 4 for 2.4" Featherwing, set to 5 for 3.5" Featherwing
+  - ["mqtt.enable", true]
+  - ["mqtt.server", "iot.eclipse.org:1883"]
+
 
 conds:
   - when: mos.platform == "esp32"
@@ -84,6 +87,7 @@ libs:
   - origin: https://github.com/mongoose-os-libs/rpc-service-fs
   - origin: https://github.com/mongoose-os-libs/rpc-uart
   - origin: https://github.com/mongoose-os-libs/prometheus-metrics
+  - origin: https://github.com/mongoose-os-libs/mqtt
   - origin: https://github.com/mongoose-os-libs/pwm
   - origin: https://github.com/mongoose-os-libs/adc
   - origin: https://github.com/mongoose-os-libs/spi

@@ -18,7 +18,9 @@
       "w": 48,
       "h": 48,
       "label": "One",
-      "type": 0
+      "type": 1,
+      "mqtt": [ "/mongoose-os/huzzah-featherwing/msg Hello World" ]
+
     }
   ]
 }
