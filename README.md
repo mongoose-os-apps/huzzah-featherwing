@@ -7,6 +7,7 @@ build around two popular pieces of hardware, both available from Adafruit:
 
 *   [Huzzah32 ESP32 Feather](https://learn.adafruit.com/adafruit-huzzah32-esp32-feather/)
 *   [2.4" TFT/TouchScreen Featherwing](https://learn.adafruit.com/adafruit-2-4-tft-touch-screen-featherwing/)
+*   Also workds for [3.5.3" TFT/TouchScreen Featherwing](https://learn.adafruit.com/adafruit-3-5-tft-featherwing/)
 
 [![Video Intro](https://img.youtube.com/vi/d9CZ4VMgTGI/0.jpg)](https://www.youtube.com/watch?v=d9CZ4VMgTGI)
 
@@ -18,7 +19,7 @@ feather).
 
 The TFT Featherwing features three components:
 
-*   ILI9341 2.4" TFT screen driven by SPI 
+*   ILI9341 2.4" or 3.5" TFT screen driven by SPI 
 *   STMPE610 Resistive touchscreen driven by SPI
 *   MicroSD storage device driven by SPI
 
