@@ -27,6 +27,10 @@ config_schema:
   - ["tft", "o", {title: "TFT settings"}]
   - ["tft.orientation", "i", {title: "Orientation; 0=PORTRAIT 1=LANDSCAPE 2=PORTRAIT_FLIP 3=LANDSCAPE_FLIP"}]
   - ["tft.orientation", 1 ]
+  - ["tft.width", "i", {title: "TFT width in pixels"}]
+  - ["tft.height", "i", {title: "TFT height in pixels"}]
+  - ["tft.width", 480]            # Set to 320 for 2.4" Featherwing, set to 480 for 3.5" Featherwing
+  - ["tft.height", 320]           # Set to 240 for 2.4" Featherwing, set to 320 for 3.5" Featherwing
   - ["app", "o", {title: "APP settings"}]
   - ["app.hostname", "s", {title: "Device hostname"}]
   - ["app.hostname", "Mongoose Touch"]
@@ -39,7 +43,7 @@ config_schema:
   - ["spi.cs2_gpio", -1]
   - ["ili9341.cs_index", 0]
   - ["stmpe610.cs_index", 1]
-  - ["stmpe610.orientation", 4]   # Swap X and Y
+  - ["stmpe610.orientation", 5]   # Set to 4 for 2.4" Featherwing, set to 5 for 3.5" Featherwing
 
 conds:
   - when: mos.platform == "esp32"

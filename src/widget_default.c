@@ -44,34 +44,39 @@ static void widget_default_draw(struct widget_t *w, uint16_t color) {
 
 void screen_add_default_widgets(struct screen_t *screen) {
   struct widget_t *w;
+  uint16_t screen_width = mgos_ili9341_get_screenWidth();
   if (!screen)
     return;
 
-  w = widget_create("name", 0, 0, 185, 20);
-  widget_set_handler(w, widget_name_ev);
+  w = widget_create("topbar", 0, 21, screen_width, 2);
+  widget_set_handler(w, widget_topbar_ev);
   screen_widget_add(screen, w);
 
-  w = widget_create("network", 185, 0, 22, 20);
-  widget_set_handler(w, widget_network_ev);
-  screen_widget_add(screen, w);
-
-  w = widget_create("wifi", 207, 0, 20, 20);
-  widget_set_handler(w, widget_wifi_ev);
-  widget_set_timer(w, 5000);
-  screen_widget_add(screen, w);
-
-  w = widget_create("battery", 227, 0, 13, 20);
-  widget_set_handler(w, widget_battery_ev);
-  widget_set_timer(w, 10000);
-  screen_widget_add(screen, w);
-
-  w = widget_create("time", 240, 0, 80, 20);
+  w = widget_create("time", screen_width-80, 0, 80, 20);
   widget_set_handler(w, widget_time_ev);
   widget_set_timer(w, 1000);
   screen_widget_add(screen, w);
+  screen_width-=80;
 
-  w = widget_create("topbar", 0, 21, 320, 2);
-  widget_set_handler(w, widget_topbar_ev);
+  w = widget_create("battery", screen_width-13, 0, 13, 20);
+  widget_set_handler(w, widget_battery_ev);
+  widget_set_timer(w, 10000);
+  screen_widget_add(screen, w);
+  screen_width-=13;
+
+  w = widget_create("network", screen_width-22, 0, 22, 20);
+  widget_set_handler(w, widget_network_ev);
+  screen_widget_add(screen, w);
+  screen_width-=22;
+
+  w = widget_create("wifi", screen_width-20, 0, 20, 20);
+  widget_set_handler(w, widget_wifi_ev);
+  widget_set_timer(w, 5000);
+  screen_widget_add(screen, w);
+  screen_width-=20;
+
+  w = widget_create("name", 0, 0, screen_width, 20);
+  widget_set_handler(w, widget_name_ev);
   screen_widget_add(screen, w);
 }
 
