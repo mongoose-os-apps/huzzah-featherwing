@@ -80,6 +80,8 @@ void screen_add_default_widgets(struct screen_t *screen) {
   w = widget_create("name", 0, 0, screen_width, 20);
   widget_set_handler(w, widget_name_ev);
   screen_widget_add(screen, w);
+
+  (void) screen_height;
 }
 
 
